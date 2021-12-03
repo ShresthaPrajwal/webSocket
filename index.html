@@ -43,23 +43,28 @@
       border: none;
       padding: 0 1rem;
       margin: 0.25rem;
-      border-radius: 3px;
+      border-radius: 15px;
       outline: none;
       color: #fff;
     }
-
+    #form>button:hover{
+      background-color: rgb(161, 161, 161);
+      border:1px solid black;
+      color:black;
+    }
     #messages {
       list-style-type: none;
       margin: 0;
       padding: 0;
     }
 
-    #messages>li {
-      padding: 0.5rem 1rem;
-    }
-
-    #messages>li:nth-child(odd) {
-      background: #efefef;
+    #messages>div {
+      margin: 0.7rem 1.5rem;
+      padding: 0.5rem;
+      border-radius: 30px;
+      background-color: rgb(197, 197, 197);
+      max-width: 35%;
+      width:fit-content;
     }
   </style>
 
@@ -70,7 +75,7 @@
 </head>
 
 <body>
-  <ul id="messages"></ul>
+  <div id="messages"></div>
   <form id="form" action="">
     <input id="input" autocomplete="off" /><button id="submit" type="submit">Send</button>
   </form>
@@ -101,14 +106,18 @@
 
   socket.on('messageServer', (data) => {
 
-    if( data[1] == socket.id ){
+    let item = document.createElement('div');
+
+    if (data[1] == socket.id) {
       data[2] = "Me";
+      item.style.marginLeft = "auto";
+      item.style.marginRight = "1.5rem";
     }
 
-    let item = document.createElement('li');
     item.textContent = data[2] + ": " + data[0];
     display.appendChild(item);
-    
+
+
     window.scrollTo(0, document.body.scrollHeight);
   })
 
