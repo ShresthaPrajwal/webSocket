@@ -1,10 +1,14 @@
 //let's test if the server works 
 const express = require('express');
 const http = require('http');
+require("dotenv").config();
 
 //we will use socket.io for two way server client communication
 const { Server } = require('socket.io');
 //io({transports: ['websocket'], upgrade: false});
+
+//choose suitable port given by environment
+const PORT = process.env.PORT || 5000;
 
 //now create each instants
 const app = express();
@@ -43,6 +47,6 @@ io.on('connection', (socket)=>{
 
 
 //now listen on port 5555
-server.listen(5555, ()=>{
+server.listen(PORT, ()=>{
     console.log("server has been started at port 5555");
 });
