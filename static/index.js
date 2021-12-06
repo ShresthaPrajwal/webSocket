@@ -38,7 +38,6 @@ form.addEventListener('submit', (data) => {
   if (input.value) {
     userinfo.message = input.value;
     socket.emit('message', userinfo);
-    console.log(userinfo);
     input.value = '';
   }
 })
