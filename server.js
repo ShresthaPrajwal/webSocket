@@ -8,7 +8,7 @@ const { Server } = require('socket.io');
 //io({transports: ['websocket'], upgrade: false});
 
 //choose suitable port given by environment
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5555;
 
 //now create each instants
 const app = express();
@@ -18,12 +18,8 @@ const server = http.createServer(app);
 //connect socket with our existing server
 const io = new Server(server);
 
-//crete a simple route
-app.get('/', (req, res)=>{
-    //we will now server a html page at this route
-    //html is in the same directory
-    res.sendFile(__dirname + '/index.html');
-});
+//serve our html
+app.use(express.static('static'));
 
 //now check for connection event
 //it means find when someone does new get request to the server
@@ -34,19 +30,25 @@ io.on('connection', (socket)=>{
         console.log(`user with id :${socket.id}  has disconnected...`);
     });
 
-    //now lets listen for message event
-    socket.on('message', (data) => {
-        
-        //send this message to all users
-        io.emit('messageServer', data);
+    //listen when user wants to join a certain room
+    socket.on('joinRoom', (userinfo) =>{
+        socket.join(userinfo.room);
+        socket.broadcast.to(userinfo.room).emit('serverbroadcast', userinfo);
+        console.log(`${socket.id} joined room ${userinfo.room}`);
+
     })
 
-    //now we will broadcast the message to all the users
-    //there is broscast method
+    //now lets listen for message event
+    socket.on('message', (userinfo) => {
+        
+        //send this message to the users connected in their respective rooms
+        io.to(userinfo.room).emit('messageServer', userinfo);
+    })
+    
 });
 
 
 //now listen on port 5555
 server.listen(PORT, ()=>{
-    console.log("server has been started at port 5555");
+    console.log(`server has started in port ${PORT}`);
 });
