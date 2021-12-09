@@ -88,13 +88,13 @@ socket.on('serverbroadcast', (userinfolocal) => {
         socket.emit('clientaudio', blob, userinfo.room);
       };
 
-      // mediaRecorder.start();
-      // //run the loop for mic
-      // interval = setInterval(() => {
-      //   mediaRecorder.stop();
-      //   mediaRecorder.start();
-      // },
-      // 2500);
+      mediaRecorder.start();
+      //run the loop for mic
+      interval = setInterval(() => {
+        mediaRecorder.stop();
+        mediaRecorder.start();
+      },
+      2500);
 
       // mediaRecorder.stop();
     }
