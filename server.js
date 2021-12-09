@@ -35,7 +35,12 @@ io.on('connection', (socket)=>{
         socket.join(userinfo.room);
         socket.broadcast.to(userinfo.room).emit('serverbroadcast', userinfo);
         console.log(`${socket.id} joined room ${userinfo.room}`);
+    })
 
+    //let's try sending audio to clients too..
+    //the data that comes is a audio blob
+    socket.on('clientaudio', (audioblob, room)=>{
+        socket.broadcast.to(room).emit('serveraudio', audioblob);
     })
 
     //now lets listen for message event
