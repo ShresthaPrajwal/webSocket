@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Sockets Tutorial</title>
+  <link rel="stylesheet" href="./index.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kadwa&display=swap" rel="stylesheet">
+  <!--
+          we need to connect front end with the server for io connections
+      -->
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+
+  <div class="navbar">
+
+    <div id="Rooms">
+      <button id="roombutton">Rooms</button>
+    </div>
+
+    <div id="current-roomname">
+      <div id="current-roomname-txt">Current Roomname</div>
+    </div>
+
+    <div id="profilediv"><img src="./img.jpg" id="profile"></img></div>
+
+  </div>
+<div id="content-body">
+  <div id="side-bar">
+  </div>
+  <div id="action-bar">
+  <div id="messages"></div>
+  
+    <div id="mictextinput">
+
+      <div id="formbox">
+        <form id="form" action="">
+          <button id="micbutton" class="material-icons" type="button" onclick="record()">&#xe029;</button>
+          <input id="input" autocomplete="off" />
+          <button id="submit" type="submit" class="material-icons">&#xe163;</button>
+
+        </form>
+      </div>
+    </div>
+    </div>
+</div>
+
+
+</body>
+
+<script src="./index.js"></script>
+
+</html>

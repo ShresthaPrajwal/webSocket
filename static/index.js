@@ -2,23 +2,56 @@
 let socket = io();
 let userinfo = {};
 let constraints = { audio: true, video: false };
+let miconstatus = false;
+let browserstorage = {};
 let display = document.getElementById('messages');
 let form = document.getElementById('form');
 let htmlroom = document.getElementById("current-roomname-txt");
 let input = document.getElementById('input');
 let mic = document.getElementById('micbutton');
 let audiodiv = document.getElementById('speaker');
+let roomsbutton = document.getElementById('roomdiv');
 
-userinfo.username = localStorage.getItem("username");
-//trying to setup username in local storage
-if (!userinfo.username) {
+//we will take username and room name from browser
+if (!localStorage.getItem("browserstorage")) {
+  browserstorage.recentroom;
+  browserstorage.userName;
+  browserstorage.rooms = ["rooomone", "roomtwo", "roomthree"];
   userinfo.username = prompt("Enter a username: ");
   userinfo.username = userinfo.username + " :";
-  localStorage.setItem("username", userinfo.username);
+  browserstorage.userName = userinfo.username;
+  browserstorage.rooms.push(prompt("Enter a room name: "));
+  userinfo.room = browserstorage.rooms[0];
+  recentroom = browserstorage.rooms[0];
+  localStorage.setItem("browserstorage", JSON.stringify(browserstorage));
+}
+else {
+  browserstorage = JSON.parse(localStorage.getItem("browserstorage"));
 }
 
-//prompt for room name
-userinfo.room = prompt("Enter the room name: ");
+userinfo.username = browserstorage.userName;
+userinfo.room = browserstorage.recentroom;
+
+//create buttons in the sidebar  by reading from the database
+//for now we will take rooms from localstorage
+for( let i = 0; i < browserstorage.rooms.length; i++){
+  let buttonid = document.createElement('button');
+  buttonid.setAttribute('id', browserstorage.rooms[i]);
+  buttonid.setAttribute('type', 'button');
+  buttonid.textContent = browserstorage.rooms[i];
+  roomsbutton.appendChild(buttonid);
+}
+
+//when the user clicks any one of the rooms
+//we will connect to that room
+roomsbutton.addEventListener('click', (e)=>{
+  const id = e.target.id;
+  browserstorage.recentroom = id;
+  localStorage.setItem("browserstorage", JSON.stringify(browserstorage));
+  location.reload();
+})
+
+
 
 //add id to the obj
 socket.on('connect', () => {
@@ -69,7 +102,17 @@ socket.on('serverbroadcast', (userinfolocal) => {
 
 
 //we will now record and send audio to other users
-   const record = ()=> { navigator.mediaDevices
+const record = () => {
+
+  //found no way to stop the broadcast so this is a
+  //cheap way to stop the mic broadcasting
+  if (miconstatus == true) {
+    location.reload();
+  }
+
+  miconstatus = true;
+
+  navigator.mediaDevices
     .getUserMedia(constraints)
     .then(mediaStream => {
 
@@ -94,14 +137,14 @@ socket.on('serverbroadcast', (userinfolocal) => {
         mediaRecorder.stop();
         mediaRecorder.start();
       },
-      2500);
+        2500);
 
       // mediaRecorder.stop();
     }
     ).catch(err => {
       console.log(err);
     });
-  }
+}
 //we will catch the broadcasted audio here
 socket.on('serveraudio', (buffer) => {
   console.log('audio is comming');
@@ -110,3 +153,6 @@ socket.on('serveraudio', (buffer) => {
   audiodiv.src = window.URL.createObjectURL(blob);
   audiodiv.play();
 })
+
+
+console.log(userinfo.room);
