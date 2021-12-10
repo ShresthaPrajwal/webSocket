@@ -16,13 +16,14 @@ let roomsbutton = document.getElementById('roomdiv');
 if (!localStorage.getItem("browserstorage")) {
   browserstorage.recentroom;
   browserstorage.userName;
-  browserstorage.rooms = ["rooomone", "roomtwo", "roomthree"];
+  browserstorage.rooms = ["Rooom-1", "Room-2", "Room-3","Rooom-4", "Room-5",
+   "Room-6","Rooom-7", "Room-8", "Room-9","Rooom-10", "Room-11", "Room-12"];
   userinfo.username = prompt("Enter a username: ");
   userinfo.username = userinfo.username + " :";
   browserstorage.userName = userinfo.username;
-  browserstorage.rooms.push(prompt("Enter a room name: "));
+  browserstorage.rooms.unshift(prompt("Enter a room name: "));
   userinfo.room = browserstorage.rooms[0];
-  recentroom = browserstorage.rooms[0];
+  browserstorage.recentroom = browserstorage.rooms[0];
   localStorage.setItem("browserstorage", JSON.stringify(browserstorage));
 }
 else {
@@ -31,6 +32,7 @@ else {
 
 userinfo.username = browserstorage.userName;
 userinfo.room = browserstorage.recentroom;
+console.log(userinfo.room);
 
 //create buttons in the sidebar  by reading from the database
 //for now we will take rooms from localstorage
@@ -88,7 +90,7 @@ socket.on('messageServer', (data) => {
   item.textContent = data.username + data.message;
   display.appendChild(item);
 
-  window.scrollTo(0, document.body.scrollHeight);
+  display.scrollTo(0, display.scrollHeight);
 })
 
 
@@ -97,7 +99,7 @@ socket.on('serverbroadcast', (userinfolocal) => {
   item.textContent = userinfolocal.username + " has joined the room.";
   display.appendChild(item);
 
-  window.scrollTo(0, document.body.scrollHeight);
+  display.scrollTo(0, display.scrollHeight);
 })
 
 
