@@ -99,19 +99,7 @@
     overflow-y: scroll;
     overflow-x: none;
   }
-
-  .item2>#footer {
-    background-color:#e4e6e7 ;
-    display:flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  .item2>#footer>div{
-    padding: 0px 5px;
-    margin: 0px 1px;
-    font-size: 0.5em;
-    font-family: 'Manrope',sans-serif;
-  }
+  
   .item2>#Profile>#Profilename{
     background-color: white;
     display:flex;
@@ -153,8 +141,29 @@
   .item2>#Profile>#searchdiv>button:hover{
     color:#e4e6e7;
   }
+  .item2>#footer {
+    background-color:#e4e6e7 ;
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .item2>#footer>div{
+    padding: 0px 5px;
+    margin: 0px 1px;
+    font-size: 0.8em;
+    font-family: 'Manrope',sans-serif;
+  }
+  .item2>#footer>#addButtonDiv{
+    display: flex;
+    justify-content:flex-start;
+  }
+  .item2>#footer>#addButtonDiv>button{
+    background-color: #e4e6e7;
+    outline:none;
+    border:none;
+    color:#0067FA;
+  }
   .item3 {
-    background: PaleTurquoise;
     grid-area: content;
     display: grid;
     grid-template-rows: 88vh auto;
@@ -249,6 +258,7 @@
         grid-template-rows: 86vh auto;
     }
     .item2{
+      grid-template-rows: 20% 70% 10%;
         display:none;
     }
     .item1 {
@@ -265,7 +275,9 @@
       border-style: none;
       background-color: white;
     }
-
+    .item2>#footer{
+      position:sticky;
+    }
     /* @media only screen and (max-width:400px){
     .container{
       grid-template-areas:

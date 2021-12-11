@@ -12,19 +12,19 @@ let mic = document.getElementById('micbutton');
 let audiodiv = document.getElementById('speaker');
 let roomsbutton = document.getElementById('roomdiv');
 let profilename = document.getElementById('Profilename');
+let createroom = document.getElementById('createroom');
 
 //we will take username and room name from browser
 if (!localStorage.getItem("browserstorage")) {
   browserstorage.recentroom;
   browserstorage.userName;
   browserstorage.usernamewithoutcolon;
-  browserstorage.rooms = ["Rooom-1", "Room-2", "Room-3","Rooom-4", "Room-5",
-   "Room-6","Rooom-7", "Room-8", "Room-9","Rooom-10", "Room-11", "Room-12"];
+  browserstorage.rooms = ["Node-Discussion", "Java-Discussion", "Music-Streaming","Gaming-Room", "We-are-Valo",
+   "Naughty-Group","Not-safe-for-work", "movie-discussion", "chillingparty","health-services", "Private-Room", "hostel-boys"];
   userinfo.username = prompt("Enter a username: ");
   browserstorage.usernamewithoutcolon = userinfo.username;
   userinfo.username = userinfo.username + " :";
   browserstorage.userName = userinfo.username;
-  browserstorage.rooms.unshift(prompt("Enter a room name: "));
   userinfo.room = browserstorage.rooms[0];
   browserstorage.recentroom = browserstorage.rooms[0];
   localStorage.setItem("browserstorage", JSON.stringify(browserstorage));
@@ -51,13 +51,15 @@ for( let i = 0; i < browserstorage.rooms.length; i++){
 roomsbutton.addEventListener('click', (e)=>{
   const id = e.target.id;
   browserstorage.recentroom = id;
+  let index = browserstorage.rooms.indexOf(id);
+  let item = browserstorage.rooms.splice( index, 1);
+  browserstorage.rooms.unshift(item[0]);
   localStorage.setItem("browserstorage", JSON.stringify(browserstorage));
   location.reload();
 })
 
-
-
 //add id to the obj
+
 socket.on('connect', () => {
   userinfo.socketId = socket.id;
 })
@@ -70,6 +72,19 @@ socket.emit('joinRoom', userinfo);
 //edit the username in page
 htmlroom.textContent = userinfo.room;
 profilename.innerHTML = browserstorage.usernamewithoutcolon;
+
+//create a new room
+createroom.addEventListener('click', ()=>{
+  let buttonid = document.createElement('button');
+  let newroom = prompt("Enter a new room name: ");
+  if(newroom!=null){
+  browserstorage.rooms.unshift(newroom);
+  buttonid.setAttribute('id', browserstorage.rooms[0]);
+  buttonid.setAttribute('type', 'button');
+  buttonid.textContent = browserstorage.rooms[0];
+  roomsbutton.insertBefore(buttonid, roomsbutton.firstChild);
+  }
+})
 
 form.addEventListener('submit', (data) => {
   data.preventDefault();
@@ -160,11 +175,12 @@ socket.on('serveraudio', (buffer) => {
   audiodiv.play();
 })
 
-
+//for responsive design
 let screenWidth = screen.width;
 let item1 = document.getElementById('item1');
 let item2 = document.getElementById('item2');
 let item3 = document.getElementById('item3');
+let footer =document.getElementById('footer');
 const hamburger = document.getElementById("ham");
 hamburger.addEventListener('click',()=>{
   if(screenWidth<755){
@@ -172,8 +188,6 @@ hamburger.addEventListener('click',()=>{
   item3.style.display="none";
   item2.style.display="block";
   item2.style.width="100%";
-  item2.style.height="100vh";
-  // item2.style.overflowX="none";
+  // footer.style.overflowY="none";
   }
-  
 })
