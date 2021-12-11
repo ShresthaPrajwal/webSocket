@@ -11,14 +11,17 @@ let input = document.getElementById('input');
 let mic = document.getElementById('micbutton');
 let audiodiv = document.getElementById('speaker');
 let roomsbutton = document.getElementById('roomdiv');
+let profilename = document.getElementById('Profilename');
 
 //we will take username and room name from browser
 if (!localStorage.getItem("browserstorage")) {
   browserstorage.recentroom;
   browserstorage.userName;
+  browserstorage.usernamewithoutcolon;
   browserstorage.rooms = ["Rooom-1", "Room-2", "Room-3","Rooom-4", "Room-5",
    "Room-6","Rooom-7", "Room-8", "Room-9","Rooom-10", "Room-11", "Room-12"];
   userinfo.username = prompt("Enter a username: ");
+  browserstorage.usernamewithoutcolon = userinfo.username;
   userinfo.username = userinfo.username + " :";
   browserstorage.userName = userinfo.username;
   browserstorage.rooms.unshift(prompt("Enter a room name: "));
@@ -32,7 +35,6 @@ else {
 
 userinfo.username = browserstorage.userName;
 userinfo.room = browserstorage.recentroom;
-console.log(userinfo.room);
 
 //create buttons in the sidebar  by reading from the database
 //for now we will take rooms from localstorage
@@ -65,7 +67,9 @@ socket.on('connect', () => {
 socket.emit('joinRoom', userinfo);
 
 //edit the room name in html page
+//edit the username in page
 htmlroom.textContent = userinfo.room;
+profilename.innerHTML = browserstorage.usernamewithoutcolon;
 
 form.addEventListener('submit', (data) => {
   data.preventDefault();
@@ -157,8 +161,6 @@ socket.on('serveraudio', (buffer) => {
 })
 
 
-console.log(userinfo.room);
-
 let screenWidth = screen.width;
 let item1 = document.getElementById('item1');
 let item2 = document.getElementById('item2');
@@ -172,6 +174,6 @@ hamburger.addEventListener('click',()=>{
   item2.style.width="100%";
   item2.style.height="100vh";
   // item2.style.overflowX="none";
-  console.log('Hemlo');}
+  }
   
 })
