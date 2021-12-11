@@ -24,17 +24,11 @@ app.use(express.static('static'));
 //now check for connection event
 //it means find when someone does new get request to the server
 io.on('connection', (socket)=>{
-    console.log(`user with id: ${socket.id} has joined.`);
-
-    socket.on('disconnect', (id) =>{
-        console.log(`user with id :${socket.id}  has disconnected...`);
-    });
-
+    
     //listen when user wants to join a certain room
     socket.on('joinRoom', (userinfo) =>{
         socket.join(userinfo.room);
         socket.broadcast.to(userinfo.room).emit('serverbroadcast', userinfo);
-        console.log(`${socket.id} joined room ${userinfo.room}`);
     })
 
     //let's try sending audio to clients too..
