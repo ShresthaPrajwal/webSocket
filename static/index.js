@@ -22,6 +22,9 @@ if (!localStorage.getItem("browserstorage")) {
   browserstorage.rooms = ["Node-Discussion", "Java-Discussion", "Music-Streaming","Gaming-Room", "We-are-Valo",
    "Naughty-Group","Not-safe-for-work", "movie-discussion", "chillingparty","health-services", "Private-Room", "hostel-boys"];
   userinfo.username = prompt("Enter a username: ");
+  if( userinfo.username == null ){
+    location.reload();
+  }
   browserstorage.usernamewithoutcolon = userinfo.username;
   userinfo.username = userinfo.username + " :";
   browserstorage.userName = userinfo.username;
