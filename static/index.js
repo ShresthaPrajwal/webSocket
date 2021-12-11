@@ -1,7 +1,7 @@
 //initalize the soket instance in client side
 let socket = io();
 let userinfo = {};
-let constraints = { audio: true, video: false };
+let constraints = {audio:true, video: false};
 let miconstatus = false;
 let browserstorage = {};
 let display = document.getElementById('messages');
@@ -19,10 +19,9 @@ if (!localStorage.getItem("browserstorage")) {
   browserstorage.recentroom;
   browserstorage.userName;
   browserstorage.usernamewithoutcolon;
-  browserstorage.rooms = ["Node-Discussion", "Java-Discussion", "Music-Streaming","Gaming-Room", "We-are-Valo",
-   "Naughty-Group","Not-safe-for-work", "movie-discussion", "chillingparty","health-services", "Private-Room", "hostel-boys"];
+  browserstorage.rooms = ["Node-Discussion", "Java-Discussion", "Music-Streaming", "Gaming-Room", "We-are-Valo", "movie-discussion", "chillingparty", "health-services", "Private-Room", "hostel-boys"];
   userinfo.username = prompt("Enter a username: ");
-  if( userinfo.username == null ){
+  if (userinfo.username == null) {
     location.reload();
   }
   browserstorage.usernamewithoutcolon = userinfo.username;
@@ -41,7 +40,7 @@ userinfo.room = browserstorage.recentroom;
 
 //create buttons in the sidebar  by reading from the database
 //for now we will take rooms from localstorage
-for( let i = 0; i < browserstorage.rooms.length; i++){
+for (let i = 0; i < browserstorage.rooms.length; i++) {
   let buttonid = document.createElement('button');
   buttonid.setAttribute('id', browserstorage.rooms[i]);
   buttonid.setAttribute('type', 'button');
@@ -51,11 +50,11 @@ for( let i = 0; i < browserstorage.rooms.length; i++){
 
 //when the user clicks any one of the rooms
 //we will connect to that room
-roomsbutton.addEventListener('click', (e)=>{
+roomsbutton.addEventListener('click', (e) => {
   const id = e.target.id;
   browserstorage.recentroom = id;
   let index = browserstorage.rooms.indexOf(id);
-  let item = browserstorage.rooms.splice( index, 1);
+  let item = browserstorage.rooms.splice(index, 1);
   browserstorage.rooms.unshift(item[0]);
   localStorage.setItem("browserstorage", JSON.stringify(browserstorage));
   location.reload();
@@ -77,15 +76,15 @@ htmlroom.textContent = userinfo.room;
 profilename.innerHTML = browserstorage.usernamewithoutcolon;
 
 //create a new room
-createroom.addEventListener('click', ()=>{
+createroom.addEventListener('click', () => {
   let buttonid = document.createElement('button');
   let newroom = prompt("Enter a new room name: ");
-  if(newroom!=null){
-  browserstorage.rooms.unshift(newroom);
-  buttonid.setAttribute('id', browserstorage.rooms[0]);
-  buttonid.setAttribute('type', 'button');
-  buttonid.textContent = browserstorage.rooms[0];
-  roomsbutton.insertBefore(buttonid, roomsbutton.firstChild);
+  if (newroom != null) {
+    browserstorage.rooms.unshift(newroom);
+    buttonid.setAttribute('id', browserstorage.rooms[0]);
+    buttonid.setAttribute('type', 'button');
+    buttonid.textContent = browserstorage.rooms[0];
+    roomsbutton.insertBefore(buttonid, roomsbutton.firstChild);
   }
 })
 
@@ -183,14 +182,14 @@ let screenWidth = screen.width;
 let item1 = document.getElementById('item1');
 let item2 = document.getElementById('item2');
 let item3 = document.getElementById('item3');
-let footer =document.getElementById('footer');
+let footer = document.getElementById('footer');
 const hamburger = document.getElementById("ham");
-hamburger.addEventListener('click',()=>{
-  if(screenWidth<755){
-  item1.style.display="none";
-  item3.style.display="none";
-  item2.style.display="block";
-  item2.style.width="100%";
-  // footer.style.overflowY="none";
+hamburger.addEventListener('click', () => {
+  if (screenWidth < 755) {
+    item1.style.display = "none";
+    item3.style.display = "none";
+    item2.style.display = "block";
+    item2.style.width = "100%";
+    // footer.style.overflowY="none";
   }
 })
