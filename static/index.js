@@ -159,3 +159,21 @@ socket.on('serveraudio', (buffer) => {
   audiodiv.src = window.URL.createObjectURL(blob);
   audiodiv.play();
 })
+
+
+let screenWidth = screen.width;
+let item1 = document.getElementById('item1');
+let item2 = document.getElementById('item2');
+let item3 = document.getElementById('item3');
+const hamburger = document.getElementById("ham");
+hamburger.addEventListener('click',()=>{
+  if(screenWidth<755){
+  item1.style.display="none";
+  item3.style.display="none";
+  item2.style.display="block";
+  item2.style.width="100%";
+  item2.style.height="100vh";
+  // item2.style.overflowX="none";
+  }
+  
+})

@@ -40,8 +40,7 @@
     margin-bottom: 1.5px;
   }
 
-  .item1>#current-roomname {
-    /* border:2px solid black; */
+  .item1>#current-roomname{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -70,13 +69,15 @@
     background-color: #ffffff;
     border: none;
     padding: 0 1rem;
-    /* margin: 0.25rem; */
+    margin:2px 10%;
     min-height: 70px;
     font-size: 20px;
     border-bottom: 1px solid #e4e6e7;
     text-align: start;
   }
-
+  .item2>#roomdiv>button:hover{
+    color:rgb(0, 132, 255);
+  }
   .item2>#Profile {
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 0px 0.01px #e4e6e7;
@@ -100,7 +101,16 @@
   }
 
   .item2>#footer {
-    background-color: rgb(134, 134, 134);
+    background-color:#e4e6e7 ;
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .item2>#footer>div{
+    padding: 0px 5px;
+    margin: 0px 1px;
+    font-size: 0.5em;
+    font-family: 'Manrope',sans-serif;
   }
   .item2>#Profile>#Profilename{
     background-color: white;
@@ -139,6 +149,9 @@
       border:none;
       background-color: white;
       color:rgb(0, 132, 255);
+  }
+  .item2>#Profile>#searchdiv>button:hover{
+    color:#e4e6e7;
   }
   .item3 {
     background: PaleTurquoise;
@@ -193,7 +206,7 @@
   }
 
   #form>button:hover {
-    background-color: rgb(170, 170, 170);
+    background-color: #e4e6e7;
   }
 
   .item3>#messages>div {
@@ -213,7 +226,7 @@
     font-size: 1.5em;
     height: 100vh;
     width: 100%;
-    background: LightGray;
+    background: rgb(255, 255, 255);
     display: grid;
     grid-template-columns: 25% 75%;
     grid-template-rows: 7% 1fr;
@@ -230,6 +243,7 @@
         "header"
         "advert"
         "content";
+        
     }
     .item3{
         grid-template-rows: 86vh auto;
@@ -249,7 +263,7 @@
 
     .item1>#hamburger>button {
       border-style: none;
-      background-color: lightskyblue;
+      background-color: white;
     }
 
     /* @media only screen and (max-width:400px){
