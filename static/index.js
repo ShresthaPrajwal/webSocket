@@ -160,7 +160,7 @@ const record = () => {
         mediaRecorder.stop();
         mediaRecorder.start();
       },
-        2500);
+        500);
 
       // mediaRecorder.stop();
     }
