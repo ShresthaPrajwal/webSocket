@@ -110,7 +110,6 @@ socket.on('messageServer', (data) => {
 
   item.textContent = data.username + data.message;
   display.appendChild(item);
-
   display.scrollTo(0, display.scrollHeight);
 })
 
@@ -126,7 +125,7 @@ socket.on('pastmsg', (userinfolocal, prevmsg) => {
     }
 
     item.textContent =  userinfolocal + prevmsg;
-    display.appendChild(item);
+    display.insertBefore(item, display.firstChild);
   
   display.scrollTo(0, display.scrollHeight);
 })
