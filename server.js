@@ -68,11 +68,10 @@ mongoose.connection.on('error', (err) => {
             const schema = mongoose.model( userinfo.room, userSchema);
             schema.find().limit(20).sort({$natural: -1}).then(
                 items => {
-                    let prevmsg = [];
                     items.forEach( e => {
-                        prevmsg.unshift(e.text);
+                        io.to(socket.id).emit('pastmsg', e.name, e.text);
                     })
-                    io.to(socket.id).emit('pastmsg', userinfo, prevmsg);
+                    
                 }
             )
             

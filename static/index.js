@@ -116,17 +116,18 @@ socket.on('messageServer', (data) => {
 
 
 socket.on('pastmsg', (userinfolocal, prevmsg) => {
-  prevmsg.forEach( msg => {
-    userinfo.username = userinfolocal;
+    
     let item = document.createElement('div');
-    if( userinfolocal.username == userinfo.username ){
-      userinfolocal.username = "";
+    if( userinfolocal == userinfo.username){
+      console.log('inside');
+      userinfolocal= " ";
       item.style.marginLeft = "auto";
       item.style.marginRight = "1.5rem";
     }
-    item.textContent = userinfolocal.username + msg;
+
+    item.textContent =  userinfolocal + prevmsg;
     display.appendChild(item);
-  })
+  
   display.scrollTo(0, display.scrollHeight);
 })
 
