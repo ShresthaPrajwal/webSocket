@@ -66,7 +66,7 @@ mongoose.connection.on('error', (err) => {
             ///////////////////////////////////////////////////////////////
             ///get messages of that room
             const schema = mongoose.model( userinfo.room, userSchema);
-            schema.find().limit(5).sort({$natural: -1}).then(
+            schema.find().limit(20).sort({$natural: -1}).then(
                 items => {
                     let prevmsg = [];
                     items.forEach( e => {
