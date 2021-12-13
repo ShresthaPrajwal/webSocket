@@ -19,7 +19,7 @@ if (!localStorage.getItem("browserstorage")) {
   browserstorage.recentroom;
   browserstorage.userName;
   browserstorage.usernamewithoutcolon;
-  browserstorage.rooms = ["Node-Discussion", "Java-Discussion", "Music-Streaming", "Gaming-Room", "We-are-Valo", "movie-discussion", "chillingparty", "health-services", "Private-Room", "hostel-boys"];
+  browserstorage.rooms = ["Node-Discussion", "Java-Discussion", "Music-Streaming", "Gaming-Room", "We-are-Valo", "movie-discussion", "chillingparty", "health-services", "Private-Room", "hostel-boys","Node-Discussion-2", "Java-Discussion-2", "Music-Streaming-2", "Gaming-Room-2", "We-are-Valo-2", "movie-discussion-2", "chillingparty-2", "health-services-2", "Private-Room-2", "hostel-boys-2"];
   userinfo.username = prompt("Enter a username: ");
   if (userinfo.username == null) {
     location.reload();
@@ -182,7 +182,6 @@ let screenWidth = screen.width;
 let item1 = document.getElementById('item1');
 let item2 = document.getElementById('item2');
 let item3 = document.getElementById('item3');
-let footer = document.getElementById('footer');
 const hamburger = document.getElementById("ham");
 hamburger.addEventListener('click', () => {
   if (screenWidth < 755) {
@@ -190,6 +189,5 @@ hamburger.addEventListener('click', () => {
     item3.style.display = "none";
     item2.style.display = "block";
     item2.style.width = "100%";
-    // footer.style.overflowY="none";
   }
 })
