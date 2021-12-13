@@ -115,11 +115,18 @@ socket.on('messageServer', (data) => {
 })
 
 
-socket.on('serverbroadcast', (userinfolocal) => {
-  let item = document.createElement('div');
-  item.textContent = userinfolocal.username + " has joined the room.";
-  display.appendChild(item);
-
+socket.on('pastmsg', (userinfolocal, prevmsg) => {
+  prevmsg.forEach( msg => {
+    userinfo.username = userinfolocal;
+    let item = document.createElement('div');
+    if( userinfolocal.username == userinfo.username ){
+      userinfolocal.username = "";
+      item.style.marginLeft = "auto";
+      item.style.marginRight = "1.5rem";
+    }
+    item.textContent = userinfolocal.username + msg;
+    display.appendChild(item);
+  })
   display.scrollTo(0, display.scrollHeight);
 })
 

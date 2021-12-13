@@ -62,7 +62,20 @@ mongoose.connection.on('error', (err) => {
         //when the user wants to join certain room
         socket.on('joinRoom', (userinfo) => {
             socket.join(userinfo.room);
-            socket.broadcast.to(userinfo.room).emit('serverbroadcast', userinfo);
+            ////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////
+            ///get messages of that room
+            const schema = mongoose.model( userinfo.room, userSchema);
+            schema.find().limit(5).sort({$natural: -1}).then(
+                items => {
+                    let prevmsg = [];
+                    items.forEach( e => {
+                        prevmsg.unshift(e.text);
+                    })
+                    io.to(socket.id).emit('pastmsg', userinfo, prevmsg);
+                }
+            )
+            
         })
 
         /////////////////////////////////////////////////////////////////////
@@ -79,7 +92,6 @@ mongoose.connection.on('error', (err) => {
             const todatabase = new schema(data);
             todatabase.save()
                 .then(e => {
-                    console.log(e);
                 })
                 .catch(err => console.log(err));
         })
