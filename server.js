@@ -45,7 +45,16 @@ mongoose.connection.on('error', (err) => {
         ////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////
         //sending rooms details to that user
-
+        socket.on('validateusr', ( data, response) => {
+            let responsedata = {};
+            responsedata.valid = false;
+            if( data.usr == "abhinas" && data.pass == "abhinas"){
+                responsedata.valid = true;
+            }
+            responsedata.username = data.usr;
+            responsedata.password = data.pass;
+            response(responsedata);
+        })
 
 
 
