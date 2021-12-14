@@ -191,3 +191,17 @@ hamburger.addEventListener('click', () => {
     item2.style.width = "100%";
   }
 })
+//for model popup
+function signupclicked(){
+let clickedsignup=document.querySelector(".formDiv2");
+// let formDiv=document.getElementsByClassName('formDiv');
+clickedsignup.style.display ="flex";
+console.log("clicked");
+}
+
+function loginclicked(){
+  let clickedsignup=document.querySelector(".formDiv2");
+  // let formDiv=document.querySelector('.formDiv');
+  clickedsignup.style.display ="none";
+  console.log("clicked");
+  }
