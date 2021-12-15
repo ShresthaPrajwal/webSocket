@@ -249,11 +249,11 @@ body {
   grid-template-rows: 7% 1fr;
   grid-template-areas: "advert header" "advert content";
   z-index: 1;
-  filter: blur(5px);
+  filter: none;
 }
 
 .formDiv {
-  display: flex;
+  display: none;
   z-index: 2;
   position: absolute;
   top: 0px;
