@@ -95,27 +95,33 @@
           <input type="password" placeholder="Enter Password" name="psw" id="loginpassword" required>
           <p id="loginmsg"></p>
         </div>
-      </div>
-      <div id="logindivbuttons">
-        <div id="loginButtonDiv">
-          <div id="loginButton">LOGIN</div>
-        </div>
-        <div id="signupButton ">Don't have account?<button type="button" id="nextpagesignup">SignUp</button></div>
-      </div>
+        <div id="logindivbuttons">
+        <div id="loginButtonDiv"><div id="loginButton">Login</div></div>
+        <div id="signupButton"><div id="nextpagesignup">Don't have account?SignUp</div></div>
+  
     </div>
   </div>
-
-
   <div class="formDiv2" id="usersigninform">
-
-    <div class="form-popup" id="myForm">
-      <div id="popupheader">
+    <div class="form-popup2" id="myForm">
+        <div id="popupheader">
         <h1>SignUp</h1>
-      </div>
-
-      <div id="Userlogin">
-        <div id="UsernameDiv">
+        </div>
+        <div id="Userlogin">
+        <div id="UsernameDiv2">
           <input type="text" placeholder="Enter Username" id="signinusername" required>
+        </div>
+        <div>
+        <input type="email" placeholder="Enter Email" id="signinemail" required></div>
+        <div id="PasswordDiv2">
+          <input type="password" id="sigin1password" placeholder="New Password" name="psw" required>
+        </div>
+        <div>
+          <input type="password" id="sigin2password" placeholder="Confirm Password" name="psw" required>
+        </div>
+        </div>
+        <div id="logindivbuttons">
+        <div id="signupButtonDiv"><div id="SignupButton">SignUp</div></div>
+        <div id="loginButton"><div onclick="loginclicked()">Already have account? Login</div></div>
         </div>
 
 
