@@ -84,14 +84,18 @@ const validateuser = async (usr, pass) => {
             //write profile name
             profilename.innerHTML = browserdata.username;
             //join a room
-            let rooms = {};
-            rooms.oldroom = browserdata.recentroom;
-            rooms.newroom = browserdata.recentroom;
-            socket.emit("joinRoom", rooms);
-            //load the sidebar
-            siderooms();
-            //join 
-
+           
+            let oldroom = browserdata.recentroom;
+            let newroom = browserdata.recentroom;
+            let user = browserdata.username;
+            socket.emit("joinRoom", {oldroom, newroom, user}, (response) => {
+                if( response.valid == true){
+                    siderooms();
+                }else{
+                    console.log(response.message);
+                }
+            });
+          
 
         } else {
             warning.textContent = response.message;
@@ -212,20 +216,30 @@ const siderooms = () => {
 roomsbutton.addEventListener('click', (e) => {
     const id = e.target.id;
     if( id != "roomdiv"){
-        let index = browserdata.rooms.indexOf(id);
-        let item = browserdata.rooms.splice(index, 1);
-        browserdata.rooms.unshift(item[0]);
-    
-        let rooms = {};
-        rooms.oldroom = browserdata.recentroom;
-        rooms.user = browserdata.username;
-        rooms.newroom = id;
-        socket.emit("joinRoom", rooms);
-        browserdata.recentroom = id;
-        localStorage.setItem("browserdata", JSON.stringify(browserdata));
-        //now clear all the messages and change room name
-        display.innerHTML = "";
-        htmlroom.textContent = id;
+      
+        let oldroom = browserdata.recentroom;
+        let user = browserdata.username;
+        let newroom = id;
+
+        socket.emit("joinRoom", {oldroom, newroom, user}, response => {
+            if( response.valid == true ){
+                let index = browserdata.rooms.indexOf(id);
+                let item = browserdata.rooms.splice(index, 1);
+                browserdata.rooms.unshift(item[0]);
+                browserdata.recentroom = id;
+                localStorage.setItem("browserdata", JSON.stringify(browserdata));
+
+                //now clear all the messages and change room name
+                roomsbutton.innerHTML = "";
+                siderooms();
+                display.innerHTML = "";
+                htmlroom.textContent = id;
+            }else{
+                console.log(response.message);
+            }
+        });
+
+       
     }
 });
 

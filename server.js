@@ -57,16 +57,16 @@ io.on('connection', (socket) => {
 
             if (item != null) {
 
-                const validPassword = ( data.pass == item.pass);
+                const validPassword = (data.pass == item.pass);
                 if (validPassword) {
                     responsedata.valid = true;
-                    responsedata.usr = data.usr; 
+                    responsedata.usr = data.usr;
                     responsedata.pass = data.pass;
                     responsedata.rooms = item.rooms;
 
                     //if there are no rooms then send with a default room
                     let len = item.rooms.length;
-                    if ( len == 0) {
+                    if (len == 0) {
                         let uniqueroom = "*" + data.usr;
                         responsedata.rooms.push(uniqueroom);
                         messagedatabase.db.createCollection(uniqueroom)
@@ -96,8 +96,8 @@ io.on('connection', (socket) => {
                                 )
                                 response(responsedata);
                             }
-                            ).catch( err => {
-                                if( err ){
+                            ).catch(err => {
+                                if (err) {
                                     responsedata.message = "Cannot validate this account. Try with new account";
                                     response(responsedata);
                                 }
@@ -127,7 +127,6 @@ io.on('connection', (socket) => {
 
         responsedata.valid = false;
         const schema = userdatabase.model('Userdetails', userdetails);
-
         schema.findOne({ name: data.usr }).then(
             item => {
                 if (item == null) {
@@ -170,30 +169,40 @@ io.on('connection', (socket) => {
     })
 
     //when the user wants to join certain room
-    socket.on('joinRoom', (rooms) => {
+    socket.on('joinRoom', (rooms, response) => {
+
+        let responsedata = {};
+        responsedata.valid = false;
 
         //check if the room exists for the user
         const schema1 = userdatabase.model('Userdetails', userdetails);
-        schema1.findOne({name: rooms.user}).then(
+        schema1.findOne({ name: rooms.user }).then(
             item => {
                 let validroom = item.rooms.indexOf(rooms.newroom);
-                if( validroom != -1){
+                if (validroom != -1) {
+                    responsedata.valid = true;
                     socket.leave(rooms.oldroom);
                     socket.join(rooms.newroom);
+
+                    const schema = messagedatabase.model(rooms.newroom, userSchema);
+                    schema.find().limit(5).sort({ $natural: -1 }).then(
+                        items => {
+                            items.forEach(e => {
+                                io.to(rooms.newroom).emit('pastmsg', e.name, e.text);
+                            })
+                        }
+                    )
+
+                } else {
+                    responsedata.message = "This room cannot be joined..";
                 }
+
+                response(responsedata);
             }
         )
-        socket.join(rooms.newroom);
 
         ///get messages of that room
-        const schema = messagedatabase.model(rooms.newroom, userSchema);
-        schema.find().limit(5).sort({ $natural: -1 }).then(
-            items => {
-                items.forEach(e => {
-                    io.to(rooms.newroom).emit('pastmsg', e.name, e.text);
-                })
-            }
-        )
+       
 
     })
 
@@ -206,7 +215,7 @@ io.on('connection', (socket) => {
         if (data.roomname.indexOf('*') == 0) {
             responsedata.message = "Cannot create a room with '*' at the beginning..";
             response(responsedata);
-        }else{
+        } else {
             messagedatabase.db.listCollections({ 'name': data.roomname }).toArray((err, collectionnames) => {
                 if (err) {
                     console.log(err);
@@ -217,7 +226,7 @@ io.on('connection', (socket) => {
                         .then(() => {
                             responsedata.roomname = data.roomname;
                             const schema = userdatabase.model('Userdetails', userdetails);
-    
+
                             //update the list of joined room
                             schema.updateOne({ name: data.user }, {
                                 $addToSet: { rooms: [data.roomname] }
@@ -228,7 +237,7 @@ io.on('connection', (socket) => {
                                     }
                                 }
                             )
-    
+
                             //update the list of created room
                             schema.updateOne({ name: data.user }, {
                                 $addToSet: { created: [data.roomname] }
@@ -239,7 +248,7 @@ io.on('connection', (socket) => {
                                     }
                                 }
                             )
-    
+
                             response(responsedata);
                         }
                         ).catch(
@@ -249,10 +258,10 @@ io.on('connection', (socket) => {
                     responsedata.message = "room already exists";
                     response(responsedata);
                 }
-    
+
             })
         }
-       
+
     })
 
     ////////////////////////////////////////////////////////////////////
