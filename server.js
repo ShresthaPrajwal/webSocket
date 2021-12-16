@@ -179,11 +179,29 @@ io.on('connection', (socket) => {
         schema1.findOne({ name: rooms.user }).then(
             item => {
                 let validroom = item.rooms.indexOf(rooms.newroom);
+
+                //change the order of rooms in database check if all the rooms are there
+                for(let i = 0; i < item.rooms.length; i++){
+                    if( item.rooms.indexOf(rooms.roomsorder[i]) == -1 ){
+                        validroom = -1;
+                        break;
+                    }
+                    if( item.rooms.length != rooms.roomsorder.length ){
+                        validroom = -1;
+                        break;
+                    }
+                }
+
+
                 if (validroom != -1) {
                     responsedata.valid = true;
                     socket.leave(rooms.oldroom);
                     socket.join(rooms.newroom);
 
+                    schema1.findOneAndUpdate({name: rooms.user}, {rooms: rooms.roomsorder})
+                    .then()
+                    .catch( err => {console.log(err)});
+                    
                     const schema = messagedatabase.model(rooms.newroom, userSchema);
                     schema.find().limit(5).sort({ $natural: -1 }).then(
                         items => {

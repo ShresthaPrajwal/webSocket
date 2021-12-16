@@ -65,8 +65,7 @@ const validateuser = async (usr, pass) => {
             browserdata.username = response.usr;
             browserdata.password = response.pass;
 
-            //here the rooms order has to be maintained
-            //do this portoin later
+            //the rooms order will be changed according to local chages
             browserdata.rooms = response.rooms;
             browserdata.recentroom = browserdata.rooms[0];
             localStorage.setItem("browserdata", JSON.stringify(browserdata));
@@ -88,7 +87,8 @@ const validateuser = async (usr, pass) => {
             let oldroom = browserdata.recentroom;
             let newroom = browserdata.recentroom;
             let user = browserdata.username;
-            socket.emit("joinRoom", {oldroom, newroom, user}, (response) => {
+            let roomsorder = browserdata.rooms;
+            socket.emit("joinRoom", {oldroom, newroom, user, roomsorder}, (response) => {
                 if( response.valid == true){
                     siderooms();
                 }else{
@@ -217,15 +217,19 @@ roomsbutton.addEventListener('click', (e) => {
     const id = e.target.id;
     if( id != "roomdiv"){
       
+        let index = browserdata.rooms.indexOf(id);
+        let item = browserdata.rooms.splice(index, 1);
+        browserdata.rooms.unshift(item[0]);
+
+
         let oldroom = browserdata.recentroom;
         let user = browserdata.username;
+        let roomsorder = browserdata.rooms;
         let newroom = id;
 
-        socket.emit("joinRoom", {oldroom, newroom, user}, response => {
+        socket.emit("joinRoom", {oldroom, newroom, user, roomsorder}, response => {
             if( response.valid == true ){
-                let index = browserdata.rooms.indexOf(id);
-                let item = browserdata.rooms.splice(index, 1);
-                browserdata.rooms.unshift(item[0]);
+           
                 browserdata.recentroom = id;
                 localStorage.setItem("browserdata", JSON.stringify(browserdata));
 
