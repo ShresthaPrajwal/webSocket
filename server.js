@@ -96,7 +96,12 @@ io.on('connection', (socket) => {
                                 )
                                 response(responsedata);
                             }
-                            )
+                            ).catch( err => {
+                                if( err ){
+                                    responsedata.message = "Cannot validate this account. Try with new account";
+                                    response(responsedata);
+                                }
+                            })
                     } else {
 
                         response(responsedata);
