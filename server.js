@@ -126,18 +126,17 @@ io.on('connection', (socket) => {
     })
 
     //when the user wants to join certain room
-    socket.on('joinRoom', (room) => {
-        socket.leaveAll;
-        socket.join(room);
+    socket.on('joinRoom', (rooms) => {
+        socket.leave(rooms.oldroom);
+        socket.join(rooms.newroom);
 
         ///get messages of that room
-        const schema = messagedatabase.model(room, userSchema);
-        schema.find().limit(20).sort({ $natural: -1 }).then(
+        const schema = messagedatabase.model(rooms.newroom, userSchema);
+        schema.find().limit(5).sort({ $natural: -1 }).then(
             items => {
                 items.forEach(e => {
-                    io.to(socket.id).emit('pastmsg', e.name, e.text);
+                    io.to(rooms.newroom).emit('pastmsg', e.name, e.text);
                 })
-
             }
         )
 
@@ -198,12 +197,11 @@ io.on('connection', (socket) => {
     ////////////////////////////////////////////////////////////////////
     //when a user sends message in a room
     socket.on('message', (data) => {
-        console.log(socket.rooms);
-        io.to(socket.rooms).emit('receivemessage', data);
+        io.to(data.room).emit('receivemessage', data);
 
         /////////////////////////////////////////////////////////////
         //send message to database as room as collection name
-        const schema = messagedatabase.model(socket.rooms, userSchema);
+        const schema = messagedatabase.model(data.room, userSchema);
         const dataschema = { name: data.sender, text: data.message };
         const todatabase = new schema(dataschema);
         todatabase.save()

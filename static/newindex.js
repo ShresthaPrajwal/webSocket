@@ -65,8 +65,14 @@ const validateuser = async (usr, pass) => {
             htmlroom.textContent = browserdata.recentroom;
             //write profile name
             profilename.innerHTML = browserdata.username;
+            //join a room
+            let rooms = {};
+            rooms.oldroom = browserdata.recentroom;
+            rooms.newroom = browserdata.recentroom;
+            socket.emit("joinRoom", rooms);
             //load the sidebar
             siderooms();
+            //join 
 
 
         } else {
@@ -186,15 +192,18 @@ const siderooms = () => {
 
 //connect to a room for messaging
 roomsbutton.addEventListener('click', (e) => {
-    console.log('join a room please');
     const id = e.target.id;
-    browserdata.recentroom = id;
     let index = browserdata.rooms.indexOf(id);
     let item = browserdata.rooms.splice(index, 1);
     browserdata.rooms.unshift(item[0]);
-    localStorage.setItem("browserdata", JSON.stringify(browserdata));
-    socket.emit("joinroom", id);
 
+    let rooms = {};
+    rooms.oldroom = browserdata.recentroom;
+    rooms.newroom = id;
+    socket.emit("joinRoom", rooms);
+
+    browserdata.recentroom = id;
+    localStorage.setItem("browserdata", JSON.stringify(browserdata));
     //now clear all the messages and change room name
     display.innerHTML = "";
     htmlroom.textContent = id;
@@ -248,14 +257,16 @@ form.addEventListener('submit', (data) => {
     if( input.value ){
         let message = input.value;
         let sender = browserdata.username;
-        socket.emit('message', {sender, message});
+        let room = browserdata.recentroom;
+        socket.emit('message', {sender, message, room});
         input.value = '';
       }
     });
 
 
 //listen to messges in a room
-socket.on('receivemessge', (data) => {
+socket.on('receivemessage', (data) => {
+    console.log(data);
     let item = document.createElement('div');
 
     if ( data.sender == browserdata.username) {
