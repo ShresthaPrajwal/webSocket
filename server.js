@@ -63,14 +63,53 @@ io.on('connection', (socket) => {
                     responsedata.usr = data.usr;
                     responsedata.pass = data.pass;
                     responsedata.rooms = item.rooms;
+
+                    //if there are no rooms then send with a default room
+                    let len = item.rooms.length;
+                    if ( len == 0) {
+                        let uniqueroom = "*" + data.usr;
+                        responsedata.rooms.push(uniqueroom);
+                        messagedatabase.db.createCollection(uniqueroom)
+                            .then(() => {
+                                responsedata.roomname = data.roomname;
+
+                                //update the list of joined room
+                                schema.updateOne({ name: data.user }, {
+                                    $addToSet: { rooms: [uniqueroom] }
+                                },
+                                    (err, res) => {
+                                        if (err) {
+                                            console.log(err);
+                                        }
+                                    }
+                                )
+
+                                //update the list of created room
+                                schema.updateOne({ name: data.user }, {
+                                    $addToSet: { created: [uniqueroom] }
+                                },
+                                    (err, res) => {
+                                        if (err) {
+                                            console.log(err);
+                                        }
+                                    }
+                                )
+                                response(responsedata);
+                            }
+                            )
+                    } else {
+
+                        response(responsedata);
+
+                    }
                 } else {
                     responsedata.message = "Invalid Credentials";
+                    response(responsedata);
                 }
             } else {
                 responsedata.message = "No such username present!";
+                response(responsedata);
             }
-            response(responsedata);
-
         })
     })
 
@@ -148,50 +187,56 @@ io.on('connection', (socket) => {
         let responsedata = {};
         responsedata.valid = false;
 
-        //check if that room already exists
-       // const schema = messagedatabase.model(data.roomname, userSchema);
-        messagedatabase.db.listCollections({'name': data.roomname}).toArray((err, collectionnames)=> {
-            if( err ){
-                console.log(err);
-            }
-            if( collectionnames.length == 0){
-                responsedata.valid = true;
-                messagedatabase.db.createCollection(data.roomname)
-                .then( ()=>{
-                    responsedata.roomname = data.roomname;
-                    const schema = userdatabase.model('Userdetails', userdetails);
-
-                    //update the list of joined room
-                    schema.updateOne({name: data.user}, {
-                        $addToSet: {rooms: [data.roomname]}},
-                        (err, res) =>{
-                            if( err ){
-                                console.log(err);
-                            }
+        if (data.roomname.indexOf('*') == 0) {
+            responsedata.message = "Cannot create a room with '*' at the beginning..";
+            response(responsedata);
+        }else{
+            messagedatabase.db.listCollections({ 'name': data.roomname }).toArray((err, collectionnames) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (collectionnames.length == 0) {
+                    responsedata.valid = true;
+                    messagedatabase.db.createCollection(data.roomname)
+                        .then(() => {
+                            responsedata.roomname = data.roomname;
+                            const schema = userdatabase.model('Userdetails', userdetails);
+    
+                            //update the list of joined room
+                            schema.updateOne({ name: data.user }, {
+                                $addToSet: { rooms: [data.roomname] }
+                            },
+                                (err, res) => {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                }
+                            )
+    
+                            //update the list of created room
+                            schema.updateOne({ name: data.user }, {
+                                $addToSet: { created: [data.roomname] }
+                            },
+                                (err, res) => {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                }
+                            )
+    
+                            response(responsedata);
                         }
-                    )
-
-                    //update the list of created room
-                    schema.updateOne({name: data.user}, {
-                        $addToSet: {created: [data.roomname]}},
-                        (err, res) =>{
-                            if( err ){
-                                console.log(err);
-                            }
-                        }
-                    )
-                    
+                        ).catch(
+                            err => { console.log(err); }
+                        )
+                } else {
+                    responsedata.message = "room already exists";
                     response(responsedata);
                 }
-                ).catch(
-                    err => {console.log(err);}
-                )
-            }else{
-                responsedata.message = "room already exists";
-                response(responsedata);
-            }
-            
-        })
+    
+            })
+        }
+       
     })
 
     ////////////////////////////////////////////////////////////////////
