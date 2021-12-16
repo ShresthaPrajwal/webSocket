@@ -6,7 +6,6 @@ const { Server } = require('socket.io');
 
 require("dotenv").config();
 const PORT = process.env.PORT || 3333;
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -58,9 +57,10 @@ io.on('connection', (socket) => {
 
             if (item != null) {
 
-                if (item.pass == data.pass) {
+                const validPassword = ( data.pass == item.pass);
+                if (validPassword) {
                     responsedata.valid = true;
-                    responsedata.usr = data.usr;
+                    responsedata.usr = data.usr; 
                     responsedata.pass = data.pass;
                     responsedata.rooms = item.rooms;
 
@@ -171,7 +171,18 @@ io.on('connection', (socket) => {
 
     //when the user wants to join certain room
     socket.on('joinRoom', (rooms) => {
-        socket.leave(rooms.oldroom);
+
+        //check if the room exists for the user
+        const schema1 = userdatabase.model('Userdetails', userdetails);
+        schema1.findOne({name: rooms.user}).then(
+            item => {
+                let validroom = item.rooms.indexOf(rooms.newroom);
+                if( validroom != -1){
+                    socket.leave(rooms.oldroom);
+                    socket.join(rooms.newroom);
+                }
+            }
+        )
         socket.join(rooms.newroom);
 
         ///get messages of that room

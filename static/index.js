@@ -15,6 +15,11 @@ let profilename = document.getElementById('Profilename');
 let createroom = document.getElementById('createroom');
 let loginform = document.getElementById('userloginform');
 
+let screenWidth = screen.width;
+let item1 = document.getElementById('item1');
+let item2 = document.getElementById('item2');
+let item3 = document.getElementById('item3');
+
 //we will take username and room name from browser
 if (!localStorage.getItem("browserstorage")) {
   browserstorage.recentroom;

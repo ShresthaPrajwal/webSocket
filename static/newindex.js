@@ -2,9 +2,14 @@
 ///////////////////////////////////////////////////
 //get all global variables
 let socket = io();
+
+let screenWidth = screen.width;
+
 let constraints = { audio: true, video: false };
 let miconstatus = false;
+
 let browserdata = {};
+
 let display = document.getElementById('messages');
 let form = document.getElementById('form');
 let htmlroom = document.getElementById("current-roomname-txt");
@@ -14,21 +19,34 @@ let audiodiv = document.getElementById('speaker');
 let roomsbutton = document.getElementById('roomdiv');
 let profilename = document.getElementById('Profilename');
 let createroom = document.getElementById('createroom');
+
 let loginform = document.getElementById('userloginform');
 let signinform = document.getElementById('usersigninform');
+
 let nextpagelogin = document.getElementById('nextpagelogin');
 let nextpagesignin = document.getElementById('nextpagesignup');
+
 let loginclick = document.getElementById('loginButton');
 let signinclick = document.getElementById('signinButton');
+
 let loginusername = document.getElementById('loginUsername');
 let loginpassword = document.getElementById('loginpassword');
+
 let warning = document.getElementById('warning1');
 let warning2 = document.getElementById('warning2');
+
 let container = document.getElementById('containers');
+
 let usernamediv = document.getElementById('signinusername');
 let emaildiv = document.getElementById('signinemail');
 let passdiv1 = document.getElementById('signin1password');
 let passdiv2 = document.getElementById('signin2password');
+
+let item1 = document.getElementById('item1');
+let item2 = document.getElementById('item2');
+let item3 = document.getElementById('item3');
+
+let hamburger = document.getElementById("ham");
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 //create members for browserdata
@@ -193,20 +211,22 @@ const siderooms = () => {
 //connect to a room for messaging
 roomsbutton.addEventListener('click', (e) => {
     const id = e.target.id;
-    let index = browserdata.rooms.indexOf(id);
-    let item = browserdata.rooms.splice(index, 1);
-    browserdata.rooms.unshift(item[0]);
-
-    let rooms = {};
-    rooms.oldroom = browserdata.recentroom;
-    rooms.newroom = id;
-    socket.emit("joinRoom", rooms);
-
-    browserdata.recentroom = id;
-    localStorage.setItem("browserdata", JSON.stringify(browserdata));
-    //now clear all the messages and change room name
-    display.innerHTML = "";
-    htmlroom.textContent = id;
+    if( id != "roomdiv"){
+        let index = browserdata.rooms.indexOf(id);
+        let item = browserdata.rooms.splice(index, 1);
+        browserdata.rooms.unshift(item[0]);
+    
+        let rooms = {};
+        rooms.oldroom = browserdata.recentroom;
+        rooms.user = browserdata.username;
+        rooms.newroom = id;
+        socket.emit("joinRoom", rooms);
+        browserdata.recentroom = id;
+        localStorage.setItem("browserdata", JSON.stringify(browserdata));
+        //now clear all the messages and change room name
+        display.innerHTML = "";
+        htmlroom.textContent = id;
+    }
 });
 
 
@@ -236,6 +256,7 @@ createroom.addEventListener('click', async () => {
 
     if (roomname != null) {
         await socket.emit('createnewroom', { user, roomname }, (response) => {
+            
             if (response.valid == true) {
                 browserdata.rooms.unshift(response.roomname);
                 localStorage.setItem("browserdata", JSON.stringify(browserdata));
@@ -281,6 +302,65 @@ socket.on('receivemessage', (data) => {
     display.appendChild(item);
     display.scrollTo(0, display.scrollHeight);
 })
+
+//for mobile devices
+hamburger.addEventListener('click', () => {
+    if (screenWidth < 755) {
+      item1.style.display = "none";
+      item3.style.display = "none";
+      item2.style.display = "block";
+      item2.style.width = "100%";
+    }
+  })
+
+
+/////////////////////////////////////////////////////
+/////// temporary fix for transmissin of audio /////
+/////////////////////////////////////////////////////
+const record = () => {
+    if (miconstatus == true) {
+      location.reload();
+    }
+
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(mediaStream => {
+        let mediaRecorder = new MediaRecorder(mediaStream);
+  
+        mediaRecorder.onstart = (e) => {
+          this.chunks = [];
+        }
+        mediaRecorder.ondataavailable = e => {
+          this.chunks.push(e.data);
+        }
+  
+        mediaRecorder.onstop = (e) => {
+          let blob = new Blob(this.chunks, { 'type': 'audio/ogg; codecs=opus' });
+          socket.emit('clientaudio', blob, browserdata.recentroom);
+        };
+  
+        mediaRecorder.start();
+        //run the loop for mic
+        interval = setInterval(() => {
+          mediaRecorder.stop();
+          mediaRecorder.start();
+        }, 1000);
+  
+      }
+      ).catch(err => {
+        console.log(err);
+      });
+  }
+  
+
+  //get aduio from the server
+  socket.on('serveraudio', (buffer) => {
+    let blob = new Blob([buffer], { 'type': 'audio/ogg; codecs=opus' });
+    let audiodiv = document.createElement('audio');
+    audiodiv.src = window.URL.createObjectURL(blob);
+    audiodiv.play();
+  })
+  
 
 
 
