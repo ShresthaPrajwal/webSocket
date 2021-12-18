@@ -146,14 +146,10 @@ if (!localStorage.getItem("browserdata")) {
         const password = loginpassword.value;
 
         if (password == null || password == "" || username == null || username == " ") {
-            location.reload();
-        }
-
-        /////////////////////////////////////////////////
-        /////////////////////////////////////////////////
-        //check in the database if valid
+            
+        }else{
         validateuser(username, password);
-
+        }
     });
 
     ////////////////////////////////////////////////////
