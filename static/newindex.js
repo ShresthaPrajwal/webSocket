@@ -42,6 +42,9 @@ let emaildiv = document.getElementById('signinemail');
 let passdiv1 = document.getElementById('signin1password');
 let passdiv2 = document.getElementById('signin2password');
 
+let searchinput = document.getElementById('inputsearch');
+let searchbutton = document.getElementById('searchbutton');
+
 let item1 = document.getElementById('item1');
 let item2 = document.getElementById('item2');
 let item3 = document.getElementById('item3');
@@ -315,6 +318,32 @@ socket.on('receivemessage', (data) => {
     display.appendChild(item);
     display.scrollTo(0, display.scrollHeight);
 })
+
+
+
+//for joining somerooms other created
+searchbutton.addEventListener('click', async (e)=>{
+    if(searchinput.value != null && searchinput.value != " "){
+
+        let user = browserdata.username;
+        let searchvalue = searchinput.value;
+
+        await socket.emit('searchrooms', {user, searchvalue}, (response) => {
+            console.log(response, response.length, response[2]);
+            for( let i = 0; i < response.length; i++){
+                console.log(response[i]);
+            }
+        })
+        searchinput.value = "";
+    }
+})
+
+
+
+
+
+
+
 
 //for mobile devices
 hamburger.addEventListener('click', () => {

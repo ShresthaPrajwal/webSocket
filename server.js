@@ -235,7 +235,7 @@ io.on('connection', (socket) => {
             responsedata.message = "Cannot create a room with '*' at the beginning..";
             response(responsedata);
         } else {
-            messagedatabase.db.listCollections({ 'name': data.roomname }).toArray((err, collectionnames) => {
+            messagedatabase.db.listCollections({ name: data.roomname }).toArray((err, collectionnames) => {
                 if (err) {
                     console.log(err);
                 }
@@ -283,9 +283,28 @@ io.on('connection', (socket) => {
 
     })
 
+
+    /////////////////////////////////////////////////////
+    //searching for rooms
+    socket.on('searchrooms', (data, response) => {
+        messagedatabase.db.listCollections({name: {$regex: data.searchvalue, $options: 'i'}}).toArray((err, items) => {
+            if(err){
+                console.log(err);
+            }
+
+            let result = [];
+            for( let i = 0; i < items.length; i++){
+                result.push(items[i].name);
+            }
+            response(result);
+        })
+
+    })
+
     ////////////////////////////////////////////////////////////////////
     //when a user sends message in a room
     socket.on('message', (data) => {
+        
         io.to(data.room).emit('receivemessage', data);
 
         /////////////////////////////////////////////////////////////
