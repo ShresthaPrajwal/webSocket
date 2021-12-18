@@ -2,11 +2,11 @@
 ///////////////////////////////////////////////////
 //get all global variables
 let socket = io();
-
 let screenWidth = screen.width;
 
 let constraints = { audio: true, video: false };
 let miconstatus = false;
+let micclicked = false;
 
 let browserdata = {};
 
@@ -83,19 +83,19 @@ const validateuser = async (usr, pass) => {
             //write profile name
             profilename.innerHTML = browserdata.username;
             //join a room
-           
+
             let oldroom = browserdata.recentroom;
             let newroom = browserdata.recentroom;
             let user = browserdata.username;
             let roomsorder = browserdata.rooms;
-            socket.emit("joinRoom", {oldroom, newroom, user, roomsorder}, (response) => {
-                if( response.valid == true){
+            socket.emit("joinRoom", { oldroom, newroom, user, roomsorder }, (response) => {
+                if (response.valid == true) {
                     siderooms();
-                }else{
+                } else {
                     console.log(response.message);
                 }
             });
-          
+
 
         } else {
             warning.textContent = response.message;
@@ -215,8 +215,8 @@ const siderooms = () => {
 //connect to a room for messaging
 roomsbutton.addEventListener('click', (e) => {
     const id = e.target.id;
-    if( id != "roomdiv"){
-      
+    if (id != "roomdiv") {
+
         let index = browserdata.rooms.indexOf(id);
         let item = browserdata.rooms.splice(index, 1);
         browserdata.rooms.unshift(item[0]);
@@ -227,9 +227,9 @@ roomsbutton.addEventListener('click', (e) => {
         let roomsorder = browserdata.rooms;
         let newroom = id;
 
-        socket.emit("joinRoom", {oldroom, newroom, user, roomsorder}, response => {
-            if( response.valid == true ){
-           
+        socket.emit("joinRoom", { oldroom, newroom, user, roomsorder }, response => {
+            if (response.valid == true) {
+
                 browserdata.recentroom = id;
                 localStorage.setItem("browserdata", JSON.stringify(browserdata));
 
@@ -238,12 +238,12 @@ roomsbutton.addEventListener('click', (e) => {
                 siderooms();
                 display.innerHTML = "";
                 htmlroom.textContent = id;
-            }else{
+            } else {
                 console.log(response.message);
             }
         });
 
-       
+
     }
 });
 
@@ -274,7 +274,7 @@ createroom.addEventListener('click', async () => {
 
     if (roomname != null) {
         await socket.emit('createnewroom', { user, roomname }, (response) => {
-            
+
             if (response.valid == true) {
                 browserdata.rooms.unshift(response.roomname);
                 localStorage.setItem("browserdata", JSON.stringify(browserdata));
@@ -293,29 +293,28 @@ createroom.addEventListener('click', async () => {
 form.addEventListener('submit', (data) => {
     data.preventDefault();
 
-    if( input.value ){
+    if (input.value) {
         let message = input.value;
         let sender = browserdata.username;
         let room = browserdata.recentroom;
-        socket.emit('message', {sender, message, room});
+        socket.emit('message', { sender, message, room });
         input.value = '';
-      }
-    });
+    }
+});
 
 
 //listen to messges in a room
 socket.on('receivemessage', (data) => {
-    console.log(data);
     let item = document.createElement('div');
 
-    if ( data.sender == browserdata.username) {
-      data.sender = "";
-      item.style.marginLeft = "auto";
-      item.style.marginRight = "1.5rem";
-    }else{
+    if (data.sender == browserdata.username) {
+        data.sender = "";
+        item.style.marginLeft = "auto";
+        item.style.marginRight = "1.5rem";
+    } else {
         data.sender = data.sender + " : ";
     }
-  
+
     item.textContent = data.sender + data.message;
     display.appendChild(item);
     display.scrollTo(0, display.scrollHeight);
@@ -324,61 +323,71 @@ socket.on('receivemessage', (data) => {
 //for mobile devices
 hamburger.addEventListener('click', () => {
     if (screenWidth < 755) {
-      item1.style.display = "none";
-      item3.style.display = "none";
-      item2.style.display = "block";
-      item2.style.width = "100%";
+        item1.style.display = "none";
+        item3.style.display = "none";
+        item2.style.display = "block";
+        item2.style.width = "100%";
     }
-  })
+})
 
 
 /////////////////////////////////////////////////////
 /////// temporary fix for transmissin of audio /////
 /////////////////////////////////////////////////////
 const record = () => {
-    if (miconstatus == true) {
-      location.reload();
+    if (micclicked == true) {
+        miconstatus = true;
+    } else {
+        navigator.mediaDevices
+            .getUserMedia(constraints)
+            .then(mediaStream => {
+
+                let mediaRecorder = new MediaRecorder(mediaStream);
+                micclicked = true;
+
+                mediaRecorder.onstart = (e) => {
+                    this.chunks = [];
+                }
+                mediaRecorder.ondataavailable = e => {
+                    this.chunks.push(e.data);
+                }
+
+                mediaRecorder.onstop = (e) => {
+                    let blob = new Blob(this.chunks, { 'type': 'audio/ogg; codecs=opus' });
+                    socket.emit('clientaudio', blob, browserdata.recentroom);
+                };
+
+                mediaRecorder.start();
+
+                //run the loop for mic
+                interval = setInterval(() => {
+                    mediaRecorder.stop();
+                    mediaRecorder.start();
+
+                    if (miconstatus == true) {
+                        micclicked = false;
+                        miconstatus = false;
+                        clearInterval(interval);
+                    }
+                }, 1000);
+
+            }
+            ).catch(err => {
+                console.log(err);
+            });
     }
 
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then(mediaStream => {
-        let mediaRecorder = new MediaRecorder(mediaStream);
-  
-        mediaRecorder.onstart = (e) => {
-          this.chunks = [];
-        }
-        mediaRecorder.ondataavailable = e => {
-          this.chunks.push(e.data);
-        }
-  
-        mediaRecorder.onstop = (e) => {
-          let blob = new Blob(this.chunks, { 'type': 'audio/ogg; codecs=opus' });
-          socket.emit('clientaudio', blob, browserdata.recentroom);
-        };
-  
-        mediaRecorder.start();
-        //run the loop for mic
-        interval = setInterval(() => {
-          mediaRecorder.stop();
-          mediaRecorder.start();
-        }, 1000);
-  
-      }
-      ).catch(err => {
-        console.log(err);
-      });
-  }
-  
+}
 
-  //get aduio from the server
-  socket.on('serveraudio', (buffer) => {
+
+//get aduio from the server
+socket.on('serveraudio', (buffer) => {
     let blob = new Blob([buffer], { 'type': 'audio/ogg; codecs=opus' });
     let audiodiv = document.createElement('audio');
     audiodiv.src = window.URL.createObjectURL(blob);
     audiodiv.play();
-  })
-  
+})
+
 
 
 

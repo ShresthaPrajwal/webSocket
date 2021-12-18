@@ -195,6 +195,7 @@ io.on('connection', (socket) => {
 
                 if (validroom != -1) {
                     responsedata.valid = true;
+    
                     socket.leave(rooms.oldroom);
                     socket.join(rooms.newroom);
 
