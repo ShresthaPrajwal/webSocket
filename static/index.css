@@ -1,398 +1,451 @@
 /*Sass elements*/
+
+
 /* width */
+
 ::-webkit-scrollbar {
-  width: 5px;
+    width: 5px;
 }
+
 
 /* Track */
+
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 2px;
+    background: #f1f1f1;
+    border-radius: 2px;
 }
+
 
 /* Handle */
+
 ::-webkit-scrollbar-thumb {
-  background: #dddcdc;
-  border-radius: 2px;
+    background: #dddcdc;
+    border-radius: 2px;
 }
 
+
 /* Handle on hover */
+
 ::-webkit-scrollbar-thumb:hover {
-  background: silver;
+    background: silver;
 }
 
 * {
-  margin: 0px;
-  box-sizing: border-box;
+    margin: 0px;
+    box-sizing: border-box;
 }
 
 body {
-  background-color: white;
+    background-color: white;
 }
 
 .item1 {
-  background: white;
-  grid-area: header;
-  display: grid;
-  grid-template-columns: 0% 100%;
-  box-shadow: 0px 0px 0.01px #e4e6e7;
-  margin-bottom: 1.5px;
+    background: white;
+    grid-area: header;
+    display: grid;
+    grid-template-columns: 0% 100%;
+    box-shadow: 0px 0px 0.01px #e4e6e7;
+    margin-bottom: 1.5px;
 }
 
-.item1 > #current-roomname {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Raleway", sans-serif;
+.item1>#current-roomname {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Raleway", sans-serif;
 }
 
-.item1 > #hamburger {
-  opacity: 0;
+.item1>#hamburger {
+    opacity: 0;
 }
 
 .item2 {
-  background: white;
-  grid-area: advert;
-  display: grid;
-  grid-template-areas: "profile" "body" "footer";
-  grid-template-columns: 100%;
-  grid-template-rows: 14% auto 5%;
-  border-right: 1px solid lightgray;
+    background: white;
+    grid-area: advert;
+    display: grid;
+    grid-template-areas: "profile" "body" "footer";
+    grid-template-columns: 100%;
+    grid-template-rows: 14% auto 5%;
+    border-right: 1px solid lightgray;
 }
 
-.item2 > #roomdiv > button {
-  outline: none;
-  background-color: #ffffff;
-  border: none;
-  padding: 0 1rem;
-  margin: 2px 10%;
-  min-height: 70px;
-  font-size: 20px;
-  border-bottom: 1px solid #e4e6e7;
-  text-align: start;
+.item2>#roomdiv {
+    background-color: rgba(255, 255, 255, 0.952);
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: none;
 }
 
-.item2 > #roomdiv > button:hover {
-  color: #c50c0c;
+.item2>#roomdiv>button {
+    outline: none;
+    background-color: #ffffff;
+    border: none;
+    padding: 0 1rem;
+    margin: 2px 10%;
+    min-height: 70px;
+    font-size: 20px;
+    border-bottom: 1px solid #e4e6e7;
+    text-align: start;
+    z-index: 3;
 }
 
-.item2 > #Profile {
-  background-color: white;
-  box-shadow: 0px 0px 0.01px #e4e6e7;
-  margin-bottom: 1.5px;
-  display: grid;
-  grid-template-areas: "pic texts" "search";
-  grid-template-columns: 25% 75%;
-  grid-template-rows: 50% auto;
-  font-family: "Raleway", sans-serif;
+.item2>#roomdiv>button:hover {
+    color: #c50c0c;
 }
 
-.item2 > #roomdiv {
-  background-color: rgba(255, 255, 255, 0.952);
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-  overflow-x: none;
+.item2>#Profile>#dropdown {
+    background-color: #e4e6e7;
+    font-family: 'Lato';
+    overflow-x: none;
+    z-index: 5;
+    grid-column: 2/3;
+    display: inline-flex;
+    flex-direction: column;
+    align-content: center;
+    margin: 10px 10px 0px 0px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px rgb(119, 119, 119);
 }
 
-.item2 > #Profile > #Profilename {
-  background-color: white;
-  display: flex;
-  align-items: center;
+.item2>#Profile>#dropdown>div {
+    font-size: 20px;
+    padding: 10px;
+    color: black;
+    background-color: #e4e6e7;
+    border: none;
+    padding: 0 1rem;
+    margin: 2px 10%;
+    min-height: 70px;
+    font-size: 20px;
+    border-bottom: 1px solid #ffffff;
+    vertical-align: middle;
+    padding: 10px;
 }
 
-.item2 > #Profile > #imgdiv {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  grid-row: 1/3;
+.item2>#Profile {
+    background-color: white;
+    box-shadow: 0px 0px 0.01px #e4e6e7;
+    margin-bottom: 1.5px;
+    display: grid;
+    grid-template-areas: "pic texts" "search";
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 50% auto;
+    font-family: "Raleway", sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+.item2>#Profile>#Profilename {
+    background-color: white;
+    display: flex;
+    align-items: center;
+}
+
+.item2>#Profile>#imgdiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-row: 1/3;
 }
 
 #image {
-  width: 64px;
-  height: 64px;
-  border-radius: 32px;
-  padding: 3px;
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    padding: 3px;
 }
 
-.item2 > #Profile > #searchdiv {
-  background-color: #ffffff;
-  grid-column: 2/3;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  box-sizing: content-box;
+.item2>#Profile>#searchdiv {
+    background-color: #ffffff;
+    grid-column: 2/3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: content-box;
 }
 
-.item2 > #Profile > #searchdiv > #inputsearch {
-  height: 30px;
-  width: auto;
-  outline: none;
-  border: 1px solid lightgray;
-  border-radius: 15px;
-  padding: 0px 7px;
+.item2>#Profile>#searchdiv>#inputsearch {
+    height: 30px;
+    width: auto;
+    outline: none;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    padding: 0px 7px;
 }
 
-.item2 > #Profile > #searchdiv > button {
-  outline: none;
-  border: none;
-
-  background-color: white;
-  color: #c50c0c;
+.item2>#Profile>#searchdiv>button {
+    outline: none;
+    border: none;
+    background-color: white;
+    color: #c50c0c;
 }
 
-.item2 > #Profile > #searchdiv > button:hover {
-  color: #e4e6e7;
+.item2>#Profile>#searchdiv>button:hover {
+    color: #e4e6e7;
 }
 
-.item2 > #footer {
-  background-color: #e4e6e7;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  position: sticky;
-  bottom: 0;
+.item2>#footer {
+    background-color: #e4e6e7;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: sticky;
+    bottom: 0;
 }
 
-.item2 > #footer > div {
-  padding: 0px 5px;
-  margin: 0px 1px;
-  font-size: 0.8em;
-  font-family: "Manrope", sans-serif;
+.item2>#footer>div {
+    padding: 0px 5px;
+    margin: 0px 1px;
+    font-size: 0.8em;
+    font-family: "Manrope", sans-serif;
 }
 
-.item2 > #footer > #addButtonDiv {
-  display: flex;
-  justify-content: flex-start;
+.item2>#footer>#addButtonDiv {
+    display: flex;
+    justify-content: flex-start;
 }
 
-.item2 > #footer > #addButtonDiv > button {
-  background-color: #e4e6e7;
-  outline: none;
-  border: none;
-  color: #c50c0c;
+.item2>#footer>#addButtonDiv>button {
+    background-color: #e4e6e7;
+    outline: none;
+    border: none;
+    color: #c50c0c;
 }
 
 .item3 {
-  grid-area: content;
-  display: grid;
-  grid-template-rows: 88vh auto;
-  grid-template-columns: 100%;
-  grid-template-areas: "content" "footer";
+    grid-area: content;
+    display: grid;
+    grid-template-rows: 88vh auto;
+    grid-template-columns: 100%;
+    grid-template-areas: "content" "footer";
 }
 
-.item3 > #messages {
-  background: white;
-  grid-area: content;
-  overflow-y: scroll;
-  overflow-x: none;
+.item3>#messages {
+    background: white;
+    grid-area: content;
+    overflow-y: scroll;
+    overflow-x: none;
 }
 
-.item3 > #formbox {
-  background: white;
-  grid-area: footer;
-  display: flex;
-  justify-content: center;
+.item3>#formbox {
+    background: white;
+    grid-area: footer;
+    display: flex;
+    justify-content: center;
 }
 
-.item3 > #formbox > #form {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+.item3>#formbox>#form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 #input {
-  border: 20px;
-  padding: 0 1rem;
-  flex-grow: 1;
-  border-radius: 2rem;
-  margin: 0.25rem;
-  outline: none;
-  background-color: #e4e6e7;
+    border: 20px;
+    padding: 0 1rem;
+    flex-grow: 1;
+    border-radius: 2rem;
+    margin: 0.25rem;
+    outline: none;
+    background-color: #e4e6e7;
 }
 
-#form > button {
-  background-color: white;
-  border: none;
-  padding: 0 1rem;
-  margin: 0.25rem;
-  border-radius: 15px;
-  outline: none;
-  color: #c50c0c;
+#form>button {
+    background-color: white;
+    border: none;
+    padding: 0 1rem;
+    margin: 0.25rem;
+    border-radius: 15px;
+    outline: none;
+    color: #c50c0c;
 }
 
-#form > button:hover {
-  background-color: #e4e6e7;
+#form>button:hover {
+    background-color: #e4e6e7;
 }
 
-.item3 > #messages > div {
-  margin: 0.7rem 1.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 30px;
-  background-color: #c50c0c;
-  color: white;
-  max-width: 35%;
-  width: fit-content;
-  font-family: "Lato", sans-serif;
-  font-size: 18px;
-  letter-spacing: 1px;
+.item3>#messages>div {
+    margin: 0.7rem 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    background-color: #c50c0c;
+    color: white;
+    max-width: 35%;
+    width: fit-content;
+    font-family: "Lato", sans-serif;
+    font-size: 18px;
+    letter-spacing: 1px;
 }
 
 .container {
-  font-size: 1.5em;
-  height: 100vh;
-  width: 100%;
-  background: white;
-  display: grid;
-  grid-template-columns: 25% 75%;
-  grid-template-rows: 7% 1fr;
-  grid-template-areas: "advert header" "advert content";
-  z-index: 1;
-  filter: none;
+    font-size: 1.5em;
+    height: 100vh;
+    width: 100%;
+    background: white;
+    display: grid;
+    grid-template-columns: 25% 75%;
+    grid-template-rows: 7% 1fr;
+    grid-template-areas: "advert header" "advert content";
+    z-index: 1;
+    filter: none;
 }
 
 .formDiv {
-  display: none;
-  z-index: 2;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-.form-popup {
-  width: 600px;
-  height: 400px;
-  box-shadow: 0px 0px 5px rgb(121, 121, 121);
-  background-color: #ffffff;
-  display: grid;
-  grid-template-areas:
-    "header"
-    "body"
-    "footer";
-  grid-template-rows: 20% 50% 30%;
-  font-family: "Lato", sans-serif;
-}
-.form-popup > div {
-  max-width: 100%;
-  background-color: bisque;
-  max-height: auto;
-}
-.form-popup > #popupheader {
-  background-color: rgb(255, 255, 255);
-  text-align: center;
-}
-.form-popup > #Userlogin {
-  background-color: honeydew;
-  max-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.form-popup > #Userlogin > div > input {
-  height: 30px;
-  width: auto;
-  outline: none;
-  border: 1px solid lightgray;
-  border-radius: 15px;
-  padding: 0px 7px;
-  margin: 15px;
-}
-.form-popup > #logindivbuttons {
-  background-color: white;
-  display: grid;
-  grid-template-rows: 70% 30%;
-}
-.form-popup > #logindivbuttons > #loginButtonDiv {
-  background-color: white;
-  color:blue;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: none;
+    z-index: 2;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
-.form-popup > #logindivbuttons > #signupButton {
-  color:#8ab4f8;
-  display: flex;
-  align-items: center;
-justify-content: center;
+.form-popup {
+    width: 600px;
+    height: 400px;
+    box-shadow: 0px 0px 5px rgb(121, 121, 121);
+    background-color: #ffffff;
+    display: grid;
+    grid-template-areas: "header" "body" "footer";
+    grid-template-rows: 20% 50% 30%;
+    font-family: "Lato", sans-serif;
 }
+
+.form-popup>div {
+    max-width: 100%;
+    background-color: bisque;
+    max-height: auto;
+}
+
+.form-popup>#popupheader {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+}
+
+.form-popup>#Userlogin {
+    background-color: honeydew;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-popup>#Userlogin>div>input {
+    height: 30px;
+    width: auto;
+    outline: none;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    padding: 0px 7px;
+    margin: 15px;
+}
+
+.form-popup>#logindivbuttons {
+    background-color: white;
+    display: grid;
+    grid-template-rows: 70% 30%;
+}
+
+.form-popup>#logindivbuttons>#loginButtonDiv {
+    background-color: white;
+    color: blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-popup>#logindivbuttons>#signupButton {
+    color: #8ab4f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .formDiv2 {
-  display: none;
-  z-index: 2;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
+    display: none;
+    z-index: 2;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
+
 .form-popup2 {
-  width: 600px;
-  height: 400px;
-  box-shadow: 0px 0px 5px rgb(121, 121, 121);
-  background-color: #ffffff;
-  display: grid;
-  grid-template-areas:
-    "header"
-    "body"
-    "footer";
-  grid-template-rows: 20% 55% 25%;
-  font-family: "Lato", sans-serif;
+    width: 600px;
+    height: 400px;
+    box-shadow: 0px 0px 5px rgb(121, 121, 121);
+    background-color: #ffffff;
+    display: grid;
+    grid-template-areas: "header" "body" "footer";
+    grid-template-rows: 20% 55% 25%;
+    font-family: "Lato", sans-serif;
 }
-.form-popup2 > div {
-  max-width: 100%;
-  background-color: bisque;
-  max-height: auto;
+
+.form-popup2>div {
+    max-width: 100%;
+    background-color: bisque;
+    max-height: auto;
 }
-.form-popup2 > #popupheader {
-  background-color: rgb(255, 255, 255);
-  text-align: center;
+
+.form-popup2>#popupheader {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
 }
-.form-popup2 > #Userlogin {
-  background-color: honeydew;
-  max-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+.form-popup2>#Userlogin {
+    background-color: honeydew;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-.form-popup2 > #Userlogin > div > input {
-  height: 30px;
-  width: 250px;
-  outline: none;
-  border: 1px solid lightgray;
-  border-radius: 15px;
-  padding: 0px 7px;
-  margin: 15px;
+
+.form-popup2>#Userlogin>div>input {
+    height: 30px;
+    width: 250px;
+    outline: none;
+    border: 1px solid lightgray;
+    border-radius: 15px;
+    padding: 0px 7px;
+    margin: 15px;
 }
-.form-popup2 > #logindivbuttons {
-  background-color:white;
-  display: grid;
-  grid-template-rows: 70% 30%;
+
+.form-popup2>#logindivbuttons {
+    background-color: white;
+    display: grid;
+    grid-template-rows: 70% 30%;
 }
-.form-popup2 > #logindivbuttons > #signupButtonDiv {
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  color:blue;
+
+.form-popup2>#logindivbuttons>#signupButtonDiv {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    color: blue;
 }
-.form-popup2 > #logindivbuttons > #signupButton {
-  background-color: white;
+
+.form-popup2>#logindivbuttons>#signupButton {
+    background-color: white;
 }
-.form-popup2 > #logindivbuttons > #loginButton {
-  color: #8ab4f8;
-  display: flex;
-  align-items: center;
-justify-content: center;
+
+.form-popup2>#logindivbuttons>#loginButton {
+    color: #8ab4f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+
 /* .form-popup2 {
   width: 600px;
   height: 400px;
@@ -410,63 +463,58 @@ justify-content: center;
 } */
 
 @media only screen and (max-width: 750px) {
-  .container {
-    grid-template-columns: repeat(3, 100%);
-    grid-template-rows: 8% 0% 92%;
-    grid-template-areas: "header" "advert" "content";
-  }
-
-  .item1 {
-    font-size: 20px;
-    grid-template-columns: 10% 90%;
-  }
-
-  .item1 > #hamburger {
-    display: flex;
-    opacity: 1;
-  }
-
-  .item1 > #hamburger > button {
-    border-style: none;
-    background-color: white;
-  }
-
-  .item3 {
-    grid-template-rows: 86vh auto;
-  }
-
-  .item2 {
-    grid-template-rows: 20% 70% 10%;
-    grid-row: 1/3;
-    display: none;
-  }
-
-  .item {
-    position: relative;
-  }
-
-  .item2 > #Profile {
-    background-color: #ffffff;
-    position: fixed;
-    top: 0px;
-    width: 100%;
-  }
-
-  .item2 > #Profile > #searchdiv > #inputsearch {
-    width: 50vw;
-  }
-
-  .item2 > #roomdiv {
-    margin-top: 10vh;
-  }
-  .formDiv > .form-popup {
-    height: 100%;
-  }
-  .formDiv2 > .form-popup2 {
-    height: 100%;
-  }
-  .item2 > #footer {
-    height: 7vh;
-  }
+    .container {
+        grid-template-columns: repeat(3, 100%);
+        grid-template-rows: 8% 0% 92%;
+        grid-template-areas: "header" "advert" "content";
+    }
+    .item1 {
+        font-size: 20px;
+        grid-template-columns: 10% 90%;
+    }
+    .item1>#hamburger {
+        display: flex;
+        opacity: 1;
+    }
+    .item1>#hamburger>button {
+        border-style: none;
+        background-color: white;
+    }
+    .item3 {
+        grid-template-rows: 86vh auto;
+    }
+    .item2 {
+        grid-template-rows: 20% 70% 10%;
+        grid-row: 1/3;
+        display: none;
+    }
+    .item {
+        position: relative;
+    }
+    .item2>#Profile {
+        background-color: #ffffff;
+        position: fixed;
+        top: 0px;
+        width: 100%;
+    }
+    .item2>#Profile>#searchdiv>#inputsearch {
+        width: 50vw;
+    }
+    .item2>#roomdiv {
+        margin-top: 10vh;
+    }
+    .formDiv>.form-popup {
+        height: 100%;
+    }
+    .formDiv2>.form-popup2 {
+        height: 100%;
+    }
+    .item2>#footer {
+        height: 7vh;
+    }
 }
+
+
 /*# sourceMappingURL=index.css.map */
+
+d
