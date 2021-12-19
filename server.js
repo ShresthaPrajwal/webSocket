@@ -33,14 +33,14 @@ const userSchema = new Schema({
 
 //schema for userdetails
 const userdetails = new Schema({
-    name: { type: String },
-    pass: { type: String },
-    email: { type: String },
-    rooms: { type: Array },
-    created: { type: Array },
-})
-///////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
+        name: { type: String },
+        pass: { type: String },
+        email: { type: String },
+        rooms: { type: Array },
+        created: { type: Array },
+    })
+    ///////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////
 
 
 io.on('connection', (socket) => {
@@ -75,8 +75,8 @@ io.on('connection', (socket) => {
 
                                 //update the list of joined room
                                 schema.updateOne({ name: data.user }, {
-                                    $addToSet: { rooms: [uniqueroom] }
-                                },
+                                        $addToSet: { rooms: [uniqueroom] }
+                                    },
                                     (err, res) => {
                                         if (err) {
                                             console.log(err);
@@ -86,8 +86,8 @@ io.on('connection', (socket) => {
 
                                 //update the list of created room
                                 schema.updateOne({ name: data.user }, {
-                                    $addToSet: { created: [uniqueroom] }
-                                },
+                                        $addToSet: { created: [uniqueroom] }
+                                    },
                                     (err, res) => {
                                         if (err) {
                                             console.log(err);
@@ -95,8 +95,7 @@ io.on('connection', (socket) => {
                                     }
                                 )
                                 response(responsedata);
-                            }
-                            ).catch(err => {
+                            }).catch(err => {
                                 if (err) {
                                     responsedata.message = "Cannot validate this account. Try with new account";
                                     response(responsedata);
@@ -181,12 +180,12 @@ io.on('connection', (socket) => {
                 let validroom = item.rooms.indexOf(rooms.newroom);
 
                 //change the order of rooms in database check if all the rooms are there
-                for(let i = 0; i < item.rooms.length; i++){
-                    if( item.rooms.indexOf(rooms.roomsorder[i]) == -1 ){
+                for (let i = 0; i < item.rooms.length; i++) {
+                    if (item.rooms.indexOf(rooms.roomsorder[i]) == -1) {
                         validroom = -1;
                         break;
                     }
-                    if( item.rooms.length != rooms.roomsorder.length ){
+                    if (item.rooms.length != rooms.roomsorder.length) {
                         validroom = -1;
                         break;
                     }
@@ -195,16 +194,16 @@ io.on('connection', (socket) => {
 
                 if (validroom != -1) {
                     responsedata.valid = true;
-    
+
                     socket.leave(rooms.oldroom);
                     socket.join(rooms.newroom);
 
-                    schema1.findOneAndUpdate({name: rooms.user}, {rooms: rooms.roomsorder})
-                    .then()
-                    .catch( err => {console.log(err)});
-                    
+                    schema1.findOneAndUpdate({ name: rooms.user }, { rooms: rooms.roomsorder })
+                        .then()
+                        .catch(err => { console.log(err) });
+
                     const schema = messagedatabase.model(rooms.newroom, userSchema);
-                    schema.find().limit(5).sort({ $natural: -1 }).then(
+                    schema.find().limit(30).sort({ $natural: -1 }).then(
                         items => {
                             items.forEach(e => {
                                 io.to(rooms.newroom).emit('pastmsg', e.name, e.text);
@@ -221,7 +220,7 @@ io.on('connection', (socket) => {
         )
 
         ///get messages of that room
-       
+
 
     })
 
@@ -248,8 +247,8 @@ io.on('connection', (socket) => {
 
                             //update the list of joined room
                             schema.updateOne({ name: data.user }, {
-                                $addToSet: { rooms: [data.roomname] }
-                            },
+                                    $addToSet: { rooms: [data.roomname] }
+                                },
                                 (err, res) => {
                                     if (err) {
                                         console.log(err);
@@ -259,8 +258,8 @@ io.on('connection', (socket) => {
 
                             //update the list of created room
                             schema.updateOne({ name: data.user }, {
-                                $addToSet: { created: [data.roomname] }
-                            },
+                                    $addToSet: { created: [data.roomname] }
+                                },
                                 (err, res) => {
                                     if (err) {
                                         console.log(err);
@@ -269,8 +268,7 @@ io.on('connection', (socket) => {
                             )
 
                             response(responsedata);
-                        }
-                        ).catch(
+                        }).catch(
                             err => { console.log(err); }
                         )
                 } else {
@@ -287,10 +285,10 @@ io.on('connection', (socket) => {
     /////////////////////////////////////////////////////
     //searching for rooms
     socket.on('searchrooms', (data, response) => {
-        messagedatabase.db.listCollections({name: {$regex: data.searchvalue, $options: 'i'}}).toArray((err, items) => {
-            if(err){
-                console.log(err);
-            }
+            messagedatabase.db.listCollections({ name: { $regex: data.searchvalue, $options: 'i' } }).toArray((err, items) => {
+                if (err) {
+                    console.log(err);
+                }
 
             let result = [];
             if( items != undefined){
@@ -304,11 +302,37 @@ io.on('connection', (socket) => {
         })
 
     })
+        /////////////////////////////////////////////////////////////////////
+
+
+    socket.on('joinotherrooms', (data1, data2) => {
+        const schema = userdatabase.model('Userdetails', userdetails);
+        schema.updateOne({ name: data1 }, {
+                $addToSet: { rooms: [data2] }
+            },
+            (err, res) => {
+                if (err) {
+                    console.log(err);
+                }
+
+            }
+        )
+
+
+    })
+
+
+
+
+
+
+
+
 
     ////////////////////////////////////////////////////////////////////
     //when a user sends message in a room
     socket.on('message', (data) => {
-        
+
         io.to(data.room).emit('receivemessage', data);
 
         /////////////////////////////////////////////////////////////
@@ -317,8 +341,7 @@ io.on('connection', (socket) => {
         const dataschema = { name: data.sender, text: data.message };
         const todatabase = new schema(dataschema);
         todatabase.save()
-            .then(e => {
-            })
+            .then(e => {})
             .catch(err => console.log(err));
     })
 

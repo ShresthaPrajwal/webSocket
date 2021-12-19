@@ -2,137 +2,139 @@
 <html lang='en'>
 
 <head>
-  <script src="/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- For icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!--For fonts-->
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- For icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--For fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
 
 
-
-  <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css">
 
 </head>
 
 <body>
-  <div class="container" id="containers">
-    <div class="item1" id="item1">
-      <div id="hamburger">
-        <button id="ham" class="material-icons" type="button">&#xe5d2;</button>
-      </div>
-      <div id="current-roomname">
-        <div id="current-roomname-txt">Current Roomname</div>
-      </div>
+    <div class="container" id="containers">
+        <div class="item1" id="item1">
+            <div id="hamburger">
+                <button id="ham" class="material-icons" type="button">&#xe5d2;</button>
+            </div>
+            <div id="current-roomname">
+                <div id="current-roomname-txt">Current Roomname</div>
+            </div>
 
-      <!-- <div id="profilediv"><img src="./img.jpg" id="profile"></img></div> -->
+            <!-- <div id="profilediv"><img src="./img.jpg" id="profile"></img></div> -->
 
-    </div>
-
-    <div class="item2" id="item2">
-      <div id="Profile">
-        <div id="imgdiv">
-          <img src="defaultuser.jpg" id="image">
         </div>
-        <div id="Profilename">
-          <p>Hermes</p>
-        </div>
-        <!-- <div id="searchdiv">
-          <input id="inputsearch" autocomplete="off" />
-        </div> -->
-        <div id="searchdiv">
-          <input id="inputsearch" placeholder="Search..">
-          <div id="searchbutton" class="material-icons">&#xe8b6;</div>
-        </div>
-      </div>
-      <div id="roomdiv">
 
-      </div>
-      <div id="footer">
-        <div id="addButtonDiv">
-          <button id="createroom" type="button" class="material-icons">
+        <div class="item2" id="item2">
+            <div id="Profile">
+                <div id="imgdiv">
+                    <img src="defaultuser.jpg" id="image">
+                </div>
+                <div id="Profilename">
+                    <p>Hermes</p>
+                </div>
+                <div id="searchdiv">
+                    <input id="inputsearch" placeholder="Search..">
+
+                    <div id="searchbutton" class="material-icons">&#xe8b6;</div>
+
+                </div>
+                <div id="dropdown">
+
+                </div>
+
+            </div>
+            <div id="roomdiv">
+
+            </div>
+            <div id="footer">
+                <div id="addButtonDiv">
+                    <button id="createroom" type="button" class="material-icons">
             &#xe145;
           </button>
-          <div>Create Room</div>
+                    <div>Create Room</div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
 
-    <div class="item3" id="item3">
-      <div id="messages"></div>
-      <div id="formbox">
-        <form id="form" action="">
-          <button id="micbutton" class="material-icons" type="button" onclick="record()">&#xe029;</button>
-          <input id="input" autocomplete="off" />
-          <button id="submit" type="submit" class="material-icons">&#xe163;</button>
-        </form>
-      </div>
+        <div class="item3" id="item3">
+            <div id="messages"></div>
+            <div id="formbox">
+                <form id="form" action="">
+                    <button id="micbutton" class="material-icons" type="button" onclick="record()">&#xe029;</button>
+                    <input id="input" autocomplete="off" />
+                    <button id="submit" type="submit" class="material-icons">&#xe163;</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="formDiv" id="userloginform">
-    <div class="form-popup" id="myForm">
-      <div id="popupheader">
-        <h1>Login</h1>
-      </div>
-      <div id="Userlogin">
-        <div id="UsernameDiv">
-          <input type="text" placeholder="Username" id="loginUsername" required>
+    <div class="formDiv" id="userloginform">
+        <div class="form-popup" id="myForm">
+            <div id="popupheader">
+                <h1>Login</h1>
+            </div>
+            <div id="Userlogin">
+                <div id="UsernameDiv">
+                    <input type="text" placeholder="Username" id="loginUsername" required>
+                </div>
+                <div id="PasswordDiv">
+                    <input type="password" placeholder="Password" name="psw" id="loginpassword" required>
+                </div>
+            </div>
+            <p id="warning1"></p>
+            <div id="logindivbuttons">
+                <div id="loginButtonDiv">
+                    <div id="loginButton">Login</div>
+                </div>
+                <div id="signupButton">
+                    <div id="nextpagesignup">Don't have account?SignUp</div>
+                </div>
+            </div>
         </div>
-        <div id="PasswordDiv">
-          <input type="password" placeholder="Password" name="psw" id="loginpassword" required>
-        </div>
-      </div>
-      <p id="warning1"></p>
-      <div id="logindivbuttons">
-        <div id="loginButtonDiv">
-          <div id="loginButton">Login</div>
-        </div>
-        <div id="signupButton">
-          <div id="nextpagesignup">Don't have account?SignUp</div>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="formDiv2" id="usersigninform">
-    <div class="form-popup2" id="myForm">
-      <div id="popupheader">
-        <h1>SignUp</h1>
-      </div>
-      <div id="Userlogin">
-        <div id="UsernameDiv2">
-          <input type="text" placeholder="Enter Username" id="signinusername" required>
+    <div class="formDiv2" id="usersigninform">
+        <div class="form-popup2" id="myForm">
+            <div id="popupheader">
+                <h1>SignUp</h1>
+            </div>
+            <div id="Userlogin">
+                <div id="UsernameDiv2">
+                    <input type="text" placeholder="Enter Username" id="signinusername" required>
+                </div>
+                <div>
+                    <input type="email" placeholder="Enter Email" id="signinemail" required>
+                </div>
+                <div id="PasswordDiv2">
+                    <input type="password" placeholder="New Password" name="psw" id="signin1password" required>
+                </div>
+                <div>
+                    <input type="password" placeholder="Confirm Password" name="psw" id="signin2password" required>
+                    <div id="warning2"></div>
+                </div>
+            </div>
+            <div id="logindivbuttons">
+                <div id="signupButtonDiv">
+                    <div id="signinButton">SignUp</div>
+                </div>
+                <div id="loginButton">
+                    <div id="nextpagelogin">Already have account? Login</div>
+                </div>
+            </div>
         </div>
-        <div>
-          <input type="email" placeholder="Enter Email" id="signinemail" required>
-        </div>
-        <div id="PasswordDiv2">
-          <input type="password" placeholder="New Password" name="psw" id="signin1password" required>
-        </div>
-        <div>
-          <input type="password" placeholder="Confirm Password" name="psw" id="signin2password" required>
-          <div id="warning2"></div>
-        </div>
-      </div>
-      <div id="logindivbuttons">
-        <div id="signupButtonDiv">
-          <div id="signinButton">SignUp</div>
-        </div>
-        <div id="loginButton">
-          <div id="nextpagelogin">Already have account? Login</div>
-        </div>
-      </div>
     </div>
-  </div>
 </body>
 <script src="index.js">
 </script>
