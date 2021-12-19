@@ -293,10 +293,14 @@ io.on('connection', (socket) => {
             }
 
             let result = [];
-            for( let i = 0; i < items.length; i++){
-                result.push(items[i].name);
+            if( items != undefined){
+                for( let i = 0; i < items.length; i++){
+                    result.push(items[i].name);
+                }
+                response(result);
+            }else{
+                response([]);
             }
-            response(result);
         })
 
     })
