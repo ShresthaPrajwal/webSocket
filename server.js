@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const mongoose = require('mongoose');
+const emailCheck = require('email-check');
 const { Server } = require('socket.io');
 
 
@@ -131,27 +132,44 @@ io.on('connection', (socket) => {
                 if (item == null) {
                     schema.findOne({ email: data.email }).then(
                         item2 => {
+
                             if (item2 == null) {
-                                responsedata.valid = true;
-                                let savethisdata = {
-                                    name: data.usr,
-                                    pass: data.pass,
-                                    email: data.email,
-                                    rooms: [],
-                                    created: []
-                                };
 
-                                const save = new schema(savethisdata);
-                                save.save().then(
-                                    result => {
-                                        response(responsedata);
-                                    }
-                                ).catch(
-                                    err => {
-                                        console.log(err);
-                                    }
-                                )
+                                //check if the email is valid with external module email-check
+                                emailCheck(data.email).
+                                then( (valid) =>{
+                                    if( valid == true){
 
+                                        responsedata.valid = true;
+                                        let savethisdata = {
+                                            name: data.usr,
+                                            pass: data.pass,
+                                            email: data.email,
+                                            rooms: [],
+                                            created: []
+                                        };
+
+                                        const save = new schema(savethisdata);
+                                        save.save().then(
+                                            result => {
+                                                response(responsedata);
+                                            }
+                                        ).catch(
+                                            err => {
+                                                console.log(err);
+                                            }
+                                        )
+                                    }else{
+                                        responsedata.message = "Cannot verify this email.";
+                                    response(responsedata);
+
+                                    }
+                                }).catch( err => {
+                                    responsedata.message = 'This email cannot be accessed now..';
+                                    response(responsedata);
+
+                                })
+                                
                             } else {
                                 responsedata.message = "Email already in use...";
                                 response(responsedata);
