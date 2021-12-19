@@ -224,7 +224,7 @@ io.on('connection', (socket) => {
                     schema.find().limit(30).sort({ $natural: -1 }).then(
                         items => {
                             items.forEach(e => {
-                                io.to(rooms.newroom).emit('pastmsg', e.name, e.text);
+                                io.emit('pastmsg', e.name, e.text);
                             })
                         }
                     )
